@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-theme {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 28px;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .dark-theme h1 {
+      color: #fff;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+    .dark-theme .theme-toggle {
+      color: #fff;
+    }
+    /* Navbar Styles */
+    .navbar {
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-bottom: 40px;
+    }
+    .dark-theme .navbar {
+      background-color: #2c2c2c;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .navbar-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav-links a {
+      padding: 10px 20px;
+      background-color: #17a2b8;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+    .nav-links a:hover {
+      background-color: #138496;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+    }
+    .nav-links a.active {
+      background-color: #007bff;
+    }
+    .nav-links a.active:hover {
+      background-color: #0056b3;
+    }
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #333;
+    }
+    .dark-theme .hamburger {
+      color: #fff;
+    }
+    .dashboard {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 200px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .dark-theme .card {
+      background-color: #2c2c2c;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .dark-theme .card h2 {
+      color: #e0e0e0;
+    }
+    .card p {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+    }
+    .dark-theme .card p {
+      color: #4dabf7;
+    }
+    .search-bar {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .dark-theme .search-bar {
+      background: #333;
+      border-color: #555;
+      color: #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .dark-theme table {
+      background-color: #2c2c2c;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    .dark-theme th, .dark-theme td {
+      border-bottom: 1px solid #444;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    .dark-theme th {
+      background-color: #004085;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .dark-theme tr:hover {
+      background-color: #333;
+    }
+    .btn-detail {
+      padding: 8px 12px;
+      background-color: #17a2b8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .btn-detail:hover {
+      background-color: #138496;
+      transform: scale(1.05);
+    }
+    @media (max-width: 768px) {
+      .dashboard {
+        flex-direction: column;
+        align-items: center;
+      }
+      .card {
+        width: 100%;
+        max-width: 300px;
+      }
+      .search-bar {
+        width: 92%;
+      }
+      table {
+        font-size: 14px;
+      }
+      .btn-detail {
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+      /* Mobile Navbar */
+      .navbar-container {
+        justify-content: space-between;
+      }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        z-index: 999;
+      }
+      .dark-theme .nav-links {
+        background-color: #2c2c2c;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .nav-links a {
+        margin: 5px 0;
+        width: 85%;
+        justify-content: center;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <div class="navbar-container">
+        <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        <div class="nav-links">
+          <a href="/pelanggan"><i class="fas fa-user"></i> Pelanggan</a>
+          <a href="/produk"><i class="fas fa-box"></i> Produk</a>
+          <a href="/penjualan"><i class="fas fa-receipt"></i> Penjualan</a>
+          <a href="/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        </div>
+      </div>
+    </nav>
+    <div class="header">
+      <h1>Kasir Putri</h1>
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+    </div>
+    <div class="dashboard">
+      <div class="card">
+        <h2>Total Produk</h2>
+        <p><%= totalProduk %></p>
+      </div>
+      <div class="card">
+        <h2>Total Pelanggan</h2>
+        <p><%= totalPelanggan %></p>
+      </div>
+      <div class="card">
+        <h2>Total Penjualan</h2>
+        <p><%= totalPenjualan %></p>
+      </div>
+    </div>
+    <h2>Penjualan Terakhir</h2>
+    <input type="text" class="search-bar" id="searchInput" placeholder="Cari nama pelanggan...">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tanggal</th>
+          <th>Pelanggan</th>
+          <th>Total</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="penjualanTable">
+        <% penjualanTerbaru.forEach(item => { %>
+          <tr>
+            <td><%= item.penjualanid %></td>
+            <td><%= item.tanggalpenjualan.toLocaleDateString('id-ID') %></td>
+            <td><%= item.namapelanggan %></td>
+            <td>Rp <%= Number(item.totalharga).toLocaleString('id-ID') %></td>
+            <td><a href="/penjualan/detail/<%= item.penjualanid %>" class="btn-detail"><i class="fas fa-eye"></i> Detail</a></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
+    });
+
+    // Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const filter = searchInput.value.toLowerCase();
+      const rows = document.querySelectorAll('#penjualanTable tr');
+      rows.forEach(row => {
+        const nama = row.cells[2].textContent.toLowerCase();
+        row.style.display = nama.includes(filter) ? '' : 'none';
+      });
+    });
+
+    // Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

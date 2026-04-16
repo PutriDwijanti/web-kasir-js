@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Penjualan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      font-size: 20px;
+      color: #333;
+      margin: 0 0 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 15px;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      font-size: 14px;
+    }
+    td.right-align {
+      text-align: right;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    tfoot td {
+      font-weight: bold;
+      padding: 12px;
+      background-color: #f8f9fa;
+    }
+    .no-data {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-top: 20px;
+    }
+    .btn-back {
+      background-color: #17a2b8;
+    }
+    .btn-back:hover {
+      background-color: #138496;
+      transform: translateY(-1px);
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      th, td {
+        padding: 8px;
+        font-size: 13px;
+      }
+      .btn {
+        width: 100%;
+        text-align: center;
+        padding: 8px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Detail Penjualan</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Produk</th>
+          <th>Jumlah</th>
+          <th>Harga Satuan (Rp)</th>
+          <th>Subtotal (Rp)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (detailPenjualan && detailPenjualan.length > 0) { %>
+          <% detailPenjualan.forEach(item => { %>
+            <tr>
+              <td><%= item.namaproduk %></td>
+              <td><%= item.qty %></td>
+              <td class="right-align">
+                Rp <%= Number(item.hargasatuan).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              </td>
+              <td class="right-align">
+                Rp <%= Number(item.subtotal).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="4" class="no-data">Tidak ada detail produk</td></tr>
+        <% } %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" class="right-align">Total</td>
+          <td class="right-align">
+            Rp <%= Number(total).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <a href="/penjualan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Penjualan</a>
+  </div>
+</body>
+</html>

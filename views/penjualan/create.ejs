@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambah Penjualan Baru</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-theme {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .dark-theme .container {
+      background: #2c2c2c;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      font-size: 24px;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .dark-theme h1 {
+      color: #fff;
+    }
+    h3 {
+      font-size: 18px;
+      color: #333;
+      margin: 15px 0;
+    }
+    .dark-theme h3 {
+      color: #e0e0e0;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+    .dark-theme .theme-toggle {
+      color: #fff;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .dark-theme label {
+      color: #e0e0e0;
+    }
+    select, input[type="number"], input[type="date"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 300px;
+      transition: border-color 0.3s;
+    }
+    .dark-theme select, .dark-theme input[type="number"], .dark-theme input[type="date"] {
+      background: #333;
+      border-color: #555;
+      color: #fff;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #ddd;
+      margin: 20px 0;
+    }
+    .dark-theme hr {
+      border-color: #444;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 15px;
+    }
+    .dark-theme table {
+      background: #2c2c2c;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .dark-theme th, .dark-theme td {
+      border-bottom: 1px solid #444;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    .dark-theme th {
+      background-color: #004085;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .dark-theme tr:hover {
+      background-color: #333;
+    }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      color: white;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    .btn-primary {
+      background-color: #28a745;
+      margin: 10px 0;
+    }
+    .btn-primary:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    .btn-delete:hover {
+      background-color: #c82333;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+    }
+    .btn-back {
+      background-color: #17a2b8;
+      margin-top: 15px;
+      width: 94%;
+      text-align: center;
+    }
+    .btn-back:hover {
+      background-color: #138496;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+    }
+    .total-harga {
+      font-size: 18px;
+      color: #333;
+      margin: 20px 0;
+    }
+    .dark-theme .total-harga {
+      color: #e0e0e0;
+    }
+    .total-harga span {
+      color: #007bff;
+      font-weight: bold;
+    }
+    .dark-theme .total-harga span {
+      color: #4dabf7;
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      h3 {
+        font-size: 16px;
+      }
+      select, input[type="number"], input[type="date"] {
+        max-width: 100%;
+      }
+      table {
+        font-size: 14px;
+      }
+      .btn {
+        padding: 10px 16px;
+        font-size: 12px;
+      }
+      .btn-delete {
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Tambah Penjualan Baru</h1>
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+    </div>
+
+    <form id="formPenjualan">
+      <label for="pelanggan">Pilih Pelanggan:</label>
+      <select id="pelanggan" name="pelangganid" required>
+        <option value="">-- Pilih Pelanggan --</option>
+      </select>
+
+      <label for="tanggal">Tanggal Penjualan:</label>
+      <input type="date" id="tanggal" name="tanggalpenjualan" required />
+
+      <hr>
+
+      <h3>Tambah Produk ke Keranjang</h3>
+      <label for="produk">Pilih Produk:</label>
+      <select id="produk">
+        <option value="">-- Pilih Produk --</option>
+      </select>
+
+      <label for="jumlah">Jumlah:</label>
+      <input type="number" id="jumlah" min="1" value="1" />
+
+      <button type="button" id="btnTambahProduk" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Produk</button>
+
+      <h3>Keranjang Belanja</h3>
+      <table id="tabelKeranjang">
+        <thead>
+          <tr>
+            <th>Produk</th>
+            <th>Harga Satuan</th>
+            <th>Jumlah</th>
+            <th>Subtotal</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- List produk yang ditambahkan akan tampil di sini -->
+        </tbody>
+      </table>
+
+      <div class="total-harga">Total Harga: Rp <span id="totalHarga">0</span></div>
+
+      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Penjualan</button>
+    </form>
+
+    <a href="/penjualan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke daftar penjualan</a>
+  </div>
+
+  <script>
+    const produkSelect = document.getElementById('produk');
+    const jumlahInput = document.getElementById('jumlah');
+    const btnTambahProduk = document.getElementById('btnTambahProduk');
+    const tabelKeranjangBody = document.querySelector('#tabelKeranjang tbody');
+    const totalHargaSpan = document.getElementById('totalHarga');
+    const formPenjualan = document.getElementById('formPenjualan');
+
+    let keranjang = [];
+
+    function renderKeranjang() {
+      tabelKeranjangBody.innerHTML = '';
+      let totalHarga = 0;
+
+      keranjang.forEach((item, index) => {
+        const subtotal = item.harga * item.jumlah;
+        totalHarga += subtotal;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.nama}</td>
+          <td>Rp ${item.harga.toLocaleString('id-ID')}</td>
+          <td>${item.jumlah}</td>
+          <td>Rp ${subtotal.toLocaleString('id-ID')}</td>
+          <td><button type="button" data-index="${index}" class="btn btn-delete"><i class="fas fa-trash"></i> Hapus</button></td>
+        `;
+        tabelKeranjangBody.appendChild(tr);
+      });
+
+      totalHargaSpan.textContent = totalHarga.toLocaleString('id-ID');
+    }
+
+    btnTambahProduk.addEventListener('click', () => {
+      const produkId = produkSelect.value;
+      if (!produkId) {
+        alert('Pilih produk terlebih dahulu');
+        return;
+      }
+
+      const produkOption = produkSelect.options[produkSelect.selectedIndex];
+      const produkNama = produkOption.text.split(' - ')[0];
+      const harga = Number(produkOption.dataset.harga);
+      const jumlah = Number(jumlahInput.value);
+
+      if (!jumlah || jumlah <= 0) {
+        alert('Jumlah harus lebih dari 0');
+        return;
+      }
+
+      // Cek apakah produk sudah ada di keranjang
+      const existingIndex = keranjang.findIndex(item => item.produkid == produkId);
+      if (existingIndex >= 0) {
+        keranjang[existingIndex].jumlah += jumlah;
+      } else {
+        keranjang.push({ produkid: produkId, nama: produkNama, harga, jumlah });
+      }
+
+      renderKeranjang();
+
+      // Reset input produk dan jumlah
+      produkSelect.value = '';
+      jumlahInput.value = 1;
+    });
+
+    tabelKeranjangBody.addEventListener('click', (e) => {
+      if (e.target.closest('.btn-delete')) {
+        const index = e.target.closest('.btn-delete').dataset.index;
+        keranjang.splice(index, 1);
+        renderKeranjang();
+      }
+    });
+
+    formPenjualan.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (keranjang.length === 0) {
+        alert('Keranjang masih kosong');
+        return;
+      }
+
+      const pelangganid = formPenjualan.pelangganid.value;
+      const tanggalpenjualan = formPenjualan.tanggalpenjualan.value;
+
+      if (!pelangganid || !tanggalpenjualan) {
+        alert('Lengkapi data pelanggan dan tanggal penjualan');
+        return;
+      }
+
+      const data = {
+        pelangganid: parseInt(pelangganid),
+        tanggalpenjualan,
+        items: keranjang.map(item => ({
+          produkid: parseInt(item.produkid),
+          qty: item.jumlah,
+          hargasatuan: item.harga
+        }))
+      };
+
+      try {
+        const response = await fetch('/penjualan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          alert('Gagal menyimpan penjualan: ' + (error.message || 'Error tidak diketahui'));
+          return;
+        }
+
+        alert('Penjualan berhasil disimpan!');
+        window.location.href = '/penjualan';
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
+
+    async function loadPelanggan() {
+      try {
+        const res = await fetch('/api/pelanggan');
+        if (!res.ok) throw new Error('Gagal memuat data pelanggan');
+        const data = await res.json();
+        const pelangganSelect = document.getElementById('pelanggan');
+        pelangganSelect.innerHTML = '<option value="">-- Pilih Pelanggan --</option>';
+        data.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.pelangganid;
+          opt.textContent = p.namapelanggan;
+          pelangganSelect.appendChild(opt);
+        });
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    async function loadProduk() {
+      try {
+        const res = await fetch('/api/produk');
+        if (!res.ok) throw new Error('Gagal memuat data produk');
+        const data = await res.json();
+        produkSelect.innerHTML = '<option value="">-- Pilih Produk --</option>';
+        data.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.produkid;
+          opt.dataset.harga = p.harga;
+          opt.textContent = `${p.namaproduk} - Rp ${p.harga.toLocaleString('id-ID')}`;
+          produkSelect.appendChild(opt);
+        });
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadPelanggan();
+      loadProduk();
+    });
+  </script>
+</body>
+</html>

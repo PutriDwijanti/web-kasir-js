@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Produk</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-theme {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .dark-theme h1 {
+      color: #fff;
+    }
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      color: white;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background-color: #28a745;
+    }
+    .btn-primary:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+    .btn-back {
+      background-color: #17a2b8;
+    }
+    .btn-back:hover {
+      background-color: #138496;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+    }
+    .search-bar {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    .dark-theme .search-bar {
+      background: #333;
+      border-color: #555;
+      color: #fff;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+    .dark-theme .theme-toggle {
+      color: #fff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .dark-theme table {
+      background: #2c2c2c;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .dark-theme th, .dark-theme td {
+      border-bottom: 1px solid #444;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    .dark-theme th {
+      background-color: #004085;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .dark-theme tr:hover {
+      background-color: #333;
+    }
+    .action-buttons a, .action-buttons button {
+      margin-right: 5px;
+      padding: 8px 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .btn-detail { background-color: #17a2b8; }
+    .btn-edit { background-color: #ffc107; }
+    .btn-delete { background-color: #dc3545; }
+    .btn-detail:hover { background-color: #138496; transform: scale(1.05); }
+    .btn-edit:hover { background-color: #e0a800; transform: scale(1.05); }
+    .btn-delete:hover { background-color: #c82333; transform: scale(1.05); }
+    td form {
+      display: inline;
+    }
+    @media (max-width: 768px) {
+      .search-bar {
+        width: 100%;
+      }
+      table {
+        font-size: 14px;
+      }
+      .action-buttons a, .action-buttons button {
+        padding: 6px 8px;
+        font-size: 10px;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .btn {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Daftar Produk</h1>
+      <div class="header-actions">
+        <input type="text" class="search-bar" id="searchInput" placeholder="Cari nama produk...">
+        <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+        <a href="/produk/create" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Produk Baru</a>
+        <a href="/dashboard" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
+      </div>
+    </div>
+    <table border="1" cellpadding="8">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nama Produk</th>
+          <th>Harga</th>
+          <th>Stok</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="produkTable">
+        <% produk.forEach(item => { %>
+        <tr>
+          <td><%= item.produkid %></td>
+          <td><%= item.namaproduk %></td>
+          <td>Rp <%= item.harga %></td>
+          <td><%= item.stok %></td>
+          <td class="action-buttons">
+            <a href="/produk/detail/<%= item.produkid %>" class="btn-detail"><i class="fas fa-eye"></i> Detail</a>
+            <a href="/produk/edit/<%= item.produkid %>" class="btn-edit"><i class="fas fa-edit"></i> Edit</a>
+            <form action="/produk/hapus/<%= item.produkid %>" method="POST" style="display:inline">
+              <button type="submit" class="btn-delete" onclick="return confirmDelete()"><i class="fas fa-trash"></i> Hapus</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
+    });
+
+    // Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const filter = searchInput.value.toLowerCase();
+      const rows = document.querySelectorAll('#produkTable tr');
+      rows.forEach(row => {
+        const nama = row.cells[1].textContent.toLowerCase();
+        row.style.display = nama.includes(filter) ? '' : 'none';
+      });
+    });
+
+    // Delete Confirmation
+    function confirmDelete() {
+      return confirm('Yakin ingin hapus produk ini?');
+    }
+  </script>
+</body>
+</html>

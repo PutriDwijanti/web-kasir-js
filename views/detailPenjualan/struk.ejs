@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Struk Penjualan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-theme {
+      background-color: #1e1e1e;
+      color: #e0e0e0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .dark-theme .container {
+      background: #2c2c2c;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+    .dark-theme .theme-toggle {
+      color: #fff;
+    }
+    .struk {
+      font-family: 'Courier New', Courier, monospace;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 10px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #333;
+    }
+    .dark-theme .struk {
+      background: #2c2c2c;
+      border-color: #444;
+      color: #e0e0e0;
+    }
+    .struk-header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .struk-header h2 {
+      font-size: 16px;
+      margin: 0;
+      color: #333;
+    }
+    .dark-theme .struk-header h2 {
+      color: #e0e0e0;
+    }
+    .struk-info, .struk-item, .struk-total {
+      margin-bottom: 10px;
+    }
+    .struk-info p, .struk-total p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .struk-item {
+      margin: 10px 0;
+    }
+    .struk-item div {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+    .struk-item .item-name {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 10px;
+    }
+    .struk-item .item-price {
+      text-align: right;
+    }
+    .struk-divider {
+      border-top: 1px dashed #333;
+      margin: 10px 0;
+    }
+    .dark-theme .struk-divider {
+      border-color: #e0e0e0;
+    }
+    .struk-total p {
+      font-weight: bold;
+      color: #007bff;
+    }
+    .dark-theme .struk-total p {
+      color: #4dabf7;
+    }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      color: white;
+      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      margin: 5px;
+    }
+    .btn-primary {
+      background-color: #28a745;
+    }
+    .btn-primary:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    }
+    .btn-back {
+      background-color: #17a2b8;
+      width: 100%;
+      text-align: center;
+    }
+    .btn-back:hover {
+      background-color: #138496;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      .struk {
+        font-size: 12px;
+        max-width: 250px;
+      }
+      .struk-header h2 {
+        font-size: 14px;
+      }
+      .btn {
+        padding: 10px 16px;
+        font-size: 12px;
+      }
+    }
+    @media print {
+      body {
+        background: white;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+      }
+      .header, .theme-toggle, .btn, .button-group {
+        display: none;
+      }
+      .struk {
+        border: none;
+        max-width: 80mm;
+        margin: 0 auto;
+        padding: 0;
+        font-size: 12px;
+        background: white;
+        color: #000;
+      }
+      .struk-header h2, .struk-info p, .struk-total p {
+        color: #000;
+      }
+      .struk-divider {
+        border-color: #000;
+      }
+      @page {
+        margin: 1cm;
+        size: 80mm auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Struk Penjualan</h1>
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+    </div>
+    <div class="struk">
+      <div class="struk-header">
+        <h2>Kasir Putri</h2>
+        <p>Struk Penjualan ID: <%= penjualan.penjualanid %></p>
+      </div>
+      <div class="struk-info">
+        <p>Tanggal: <%= new Date(penjualan.tanggalpenjualan).toLocaleDateString('id-ID') %></p>
+      </div>
+      <div class="struk-divider"></div>
+      <div class="struk-item">
+        <% detailPenjualan.forEach(item => { %>
+          <div>
+            <span class="item-name"><%= item.jumlah %> x <%= item.namaproduk %></span>
+            <span class="item-price">Rp <%= Number(item.subtotal).toLocaleString('id-ID', {minimumFractionDigits:2}) %></span>
+          </div>
+          <div>
+            <span class="item-name">@ Rp <%= Number(item.hargasatuan).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span>
+          </div>
+        <% }) %>
+      </div>
+      <div class="struk-divider"></div>
+      <div class="struk-total">
+        <p>Total: Rp <%= total.toLocaleString('id-ID', {minimumFractionDigits: 2}) %></p>
+      </div>
+    </div>
+    <div class="button-group">
+      <button id="printButton" class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Cetak Struk</button>
+      <a href="/penjualan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke daftar penjualan</a>
+    </div>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
+        ? '<i class="fas fa-sun"></i>'
+        : '<i class="fas fa-moon"></i>';
+    });
+  </script>
+</body>
+</html>

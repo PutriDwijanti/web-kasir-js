@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Penjualan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin: 0 0 20px;
+    }
+    h2 {
+      font-size: 20px;
+      color: #333;
+      margin: 20px 0 10px;
+    }
+    .info-section {
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      margin-bottom: 20px;
+    }
+    .info-section p {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    .info-section strong {
+      color: #333;
+      display: inline-block;
+      width: 150px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin-top: 15px;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-size: 14px;
+    }
+    td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      font-size: 14px;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .no-data {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+    .total-harga {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #333;
+    }
+    .total-harga strong {
+      color: #333;
+      width: 150px;
+      display: inline-block;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-back {
+      background-color: #17a2b8;
+    }
+    .btn-back:hover {
+      background-color: #138496;
+      transform: translateY(-1px);
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      .info-section p {
+        font-size: 13px;
+      }
+      .info-section strong {
+        width: 120px;
+      }
+      th, td {
+        padding: 8px;
+        font-size: 13px;
+      }
+      .btn {
+        width: 100%;
+        text-align: center;
+        padding: 8px 15px;
+      }
+      .total-harga {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Detail Penjualan</h1>
+
+    <div class="info-section">
+      <p><strong>ID Penjualan:</strong> <%= penjualan.penjualanid %></p>
+      <p><strong>ID Pelanggan:</strong> <%= penjualan.pelangganid %></p>
+      <p><strong>Nama Pelanggan:</strong> <%= penjualan.namapelanggan %></p>
+      <p><strong>Tanggal:</strong> 
+        <% if (penjualan.tanggalpenjualan) { %>
+          <%= new Date(penjualan.tanggalpenjualan).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+        <% } else { %>
+          -
+        <% } %>
+      </p>
+    </div>
+
+    <h2>Detail Produk</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Produk ID</th>
+          <th>Nama Produk</th>
+          <th>Qty</th>
+          <th>Harga Satuan</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (penjualan.items && penjualan.items.length > 0) { %>
+          <% penjualan.items.forEach(item => { %>
+            <tr>
+              <td><%= item.produkid %></td>
+              <td><%= item.namaproduk %></td>
+              <td><%= item.qty %></td>
+              <td>
+                Rp <%= Number(item.harga).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              </td>
+              <td>
+                Rp <%= Number(item.subtotal).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="5" class="no-data">Tidak ada detail produk</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <p class="total-harga">
+      <strong>Total Harga:</strong> 
+      Rp <%= Number(penjualan.totalharga).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+    </p>
+
+    <a href="/penjualan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Penjualan</a>
+  </div>
+</body>
+</html>
