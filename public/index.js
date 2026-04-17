@@ -23,9 +23,6 @@ const init = async () => {
     }
   });
 
-  // Plugin untuk view engine
-  await server.register(Vision);
-
     // Register Vision dan Inert
   await server.register([Vision, Inert]);
 

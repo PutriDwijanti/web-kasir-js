@@ -1,236 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Daftar Pelanggan</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .dark-theme {
-      background-color: #1e1e1e;
-      color: #e0e0e0;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    h1 {
-      font-size: 28px;
-      color: #333;
-      margin-bottom: 20px;
-    }
-    .dark-theme h1 {
-      color: #fff;
-    }
-    .header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      gap: 10px;
-    }
-    .header-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      text-decoration: none;
-      color: white;
-      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-primary {
-      background-color: #28a745;
-    }
-    .btn-primary:hover {
-      background-color: #218838;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-    }
-    .btn-back {
-      background-color: #17a2b8;
-    }
-    .btn-back:hover {
-      background-color: #138496;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
-    }
-    .search-bar {
-      padding: 10px;
-      width: 300px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-    }
-    .dark-theme .search-bar {
-      background: #333;
-      border-color: #555;
-      color: #fff;
-    }
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #333;
-    }
-    .dark-theme .theme-toggle {
-      color: #fff;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .dark-theme table {
-      background: #2c2c2c;
-    }
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    .dark-theme th, .dark-theme td {
-      border-bottom: 1px solid #444;
-    }
-    th {
-      background-color: #007bff;
-      color: white;
-    }
-    .dark-theme th {
-      background-color: #004085;
-    }
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-    .dark-theme tr:hover {
-      background-color: #333;
-    }
-    .action-buttons a, .action-buttons button {
-      margin-right: 5px;
-      padding: 8px 12px;
-      border-radius: 5px;
-      text-decoration: none;
-      color: white;
-      font-size: 12px;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: background-color 0.3s, transform 0.2s;
-    }
-    .btn-detail { background-color: #17a2b8; }
-    .btn-edit { background-color: #ffc107; }
-    .btn-delete { background-color: #dc3545; }
-    .btn-detail:hover { background-color: #138496; transform: scale(1.05); }
-    .btn-edit:hover { background-color: #e0a800; transform: scale(1.05); }
-    .btn-delete:hover { background-color: #c82333; transform: scale(1.05); }
-    td form {
-      display: inline;
-    }
-    @media (max-width: 768px) {
-      .search-bar {
-        width: 100%;
-      }
-      table {
-        font-size: 14px;
-      }
-      .action-buttons a, .action-buttons button {
-        padding: 6px 8px;
-        font-size: 10px;
-      }
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .header-actions {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .btn {
-        padding: 8px 16px;
-        font-size: 12px;
-      }
-    }
-  </style>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Daftar Pelanggan</h1>
-      <div class="header-actions">
-        <input type="text" class="search-bar" id="searchInput" placeholder="Cari nama atau alamat...">
-        <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
-        <a href="/pelanggan/create" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Pelanggan Baru</a>
-        <a href="/dashboard" class="btn btn-back"><i class="fas fa-arrow-left"></i> Dashboard</a>
+
+<body class="bg-gray-100">
+
+  <!-- CONTAINER -->
+  <div class="max-w-6xl mx-auto px-4 py-10 md:py-14">
+
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+      
+      <h1 class="text-2xl font-bold text-gray-700 text-center md:text-left">
+        Daftar Pelanggan
+      </h1>
+
+      <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+
+        <!-- SEARCH -->
+        <input type="text" id="searchInput"
+          placeholder="Cari nama atau alamat..."
+          class="px-3 py-2 border rounded w-full sm:w-64">
+
+        <!-- BUTTON -->
+        <div class="flex gap-2">
+
+          <a href="/pelanggan/create"
+            class="flex-1 sm:flex-none text-center bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center justify-center gap-2">
+            <i class="fas fa-plus"></i> Tambah
+          </a>
+
+          <a href="/dashboard"
+            class="flex-1 sm:flex-none text-center bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded flex items-center justify-center gap-2">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+
+        </div>
       </div>
     </div>
-    <table border="1" cellpadding="8">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nama</th>
-          <th>Alamat</th>
-          <th>Telepon</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody id="pelangganTable">
-        <% pelanggan.forEach(p => { %>
-          <tr>
-            <td><%= p.pelangganid %></td>
-            <td><%= p.namapelanggan %></td>
-            <td><%= p.alamat %></td>
-            <td><%= p.nomortelepon %></td>
-            <td class="action-buttons">
-              <a href="/pelanggan/<%= p.pelangganid %>" class="btn-detail"><i class="fas fa-eye"></i> Detail</a>
-              <a href="/pelanggan/<%= p.pelangganid %>/edit" class="btn-edit"><i class="fas fa-edit"></i> Edit</a>
-              <form action="/pelanggan/<%= p.pelangganid %>?_method=DELETE" method="POST" style="display:inline;">
-                <button type="submit" class="btn-delete" onclick="return confirmDelete()"><i class="fas fa-trash"></i> Hapus</button>
-              </form>
-            </td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
+
+    <!-- TABLE -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+
+          <thead class="bg-blue-500 text-white text-center">
+            <tr>
+              <th class="p-3">ID</th>
+              <th class="p-3">Nama</th>
+              <th class="p-3">Alamat</th>
+              <th class="p-3">Telepon</th>
+              <th class="p-3">Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody id="pelangganTable" class="text-gray-700 text-center">
+            <% pelanggan.forEach(p => { %>
+              <tr class="border-b hover:bg-gray-100">
+
+                <td class="p-2"><%= p.pelangganid %></td>
+                <td class="p-2"><%= p.namapelanggan %></td>
+                <td class="p-2 break-words max-w-[150px]"><%= p.alamat %></td>
+                <td class="p-2"><%= p.nomortelepon %></td>
+
+                <td class="p-2">
+                  <div class="flex flex-wrap gap-1 justify-center">
+
+                    <a href="/pelanggan/<%= p.pelangganid %>"
+                      class="bg-cyan-500 hover:bg-cyan-600 text-white px-2 py-1 rounded text-xs">
+                      <i class="fas fa-eye"></i>
+                    </a>
+
+                    <a href="/pelanggan/<%= p.pelangganid %>/edit"
+                      class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded text-xs">
+                      <i class="fas fa-edit"></i>
+                    </a>
+
+                    <form action="/pelanggan/<%= p.pelangganid %>?_method=DELETE" method="POST">
+                      <button onclick="return confirmDelete()"
+                        class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-xs">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
+
+                  </div>
+                </td>
+
+              </tr>
+            <% }) %>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="flex justify-center items-center gap-3 mt-5">
+      <button id="prevBtn" class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
+        Prev
+      </button>
+
+      <span id="pageInfo" class="text-sm text-gray-600"></span>
+
+      <button id="nextBtn" class="px-4 py-1 bg-gray-300 rounded hover:bg-gray-400">
+        Next
+      </button>
+    </div>
+
   </div>
 
   <script>
-    // Theme Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
-        ? '<i class="fas fa-sun"></i>'
-        : '<i class="fas fa-moon"></i>';
+    const rows = document.querySelectorAll('#pelangganTable tr');
+    const rowsPerPage = 10;
+    let currentPage = 1;
+
+    function showPage(page) {
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+
+      rows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? '' : 'none';
+      });
+
+      document.getElementById('pageInfo').textContent =
+        `Page ${page} / ${Math.ceil(rows.length / rowsPerPage)}`;
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
     });
 
-    // Search Functionality
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentPage < Math.ceil(rows.length / rowsPerPage)) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    });
+
+    // INIT
+    showPage(currentPage);
+
+    // SEARCH (tetap jalan)
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', () => {
       const filter = searchInput.value.toLowerCase();
-      const rows = document.querySelectorAll('#pelangganTable tr');
+
       rows.forEach(row => {
         const nama = row.cells[1].textContent.toLowerCase();
         const alamat = row.cells[2].textContent.toLowerCase();
@@ -238,10 +166,10 @@
       });
     });
 
-    // Delete Confirmation
     function confirmDelete() {
-      return confirm('Apakah Anda yakin ingin menghapus pelanggan ini?');
+      return confirm('Yakin hapus data?');
     }
   </script>
+
 </body>
 </html>

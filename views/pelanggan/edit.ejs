@@ -1,237 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Pelanggan</title>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    onload="this.onload=null;this.rel='stylesheet'"
-    onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'"
-  />
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .dark-theme {
-      background-color: #1e1e1e;
-      color: #e0e0e0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .dark-theme .container {
-      background: #2c2c2c;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-    h1 {
-      font-size: 24px;
-      color: #333;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .dark-theme h1 {
-      color: #fff;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #333;
-    }
-    .dark-theme .theme-toggle {
-      color: #fff;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-    label {
-      font-size: 14px;
-      margin-bottom: 5px;
-      color: #333;
-    }
-    .dark-theme label {
-      color: #e0e0e0;
-    }
-    input,
-    textarea {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-      margin-bottom: 15px;
-      transition: border-color 0.3s;
-    }
-    .dark-theme input,
-    .dark-theme textarea {
-      background: #333;
-      border-color: #555;
-      color: #fff;
-    }
-    input:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-    }
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-    .btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      text-decoration: none;
-      color: white;
-      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .btn-primary {
-      background-color: #007bff;
-    }
-    .btn-primary:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-    }
-    .btn-back {
-      background-color: #17a2b8;
-      margin-top: 15px;
-      width: 92%;
-      text-align: center;
-      display: inline-block;
-    }
-    .btn-back:hover {
-      background-color: #138496;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
-    }
-    .error {
-      color: #dc3545;
-      font-size: 12px;
-      margin-top: -10px;
-      margin-bottom: 10px;
-      display: none;
-    }
-    .dark-theme .error {
-      color: #ff6b6b;
-    }
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-      }
-      h1 {
-        font-size: 20px;
-      }
-      .btn {
-        padding: 10px 16px;
-        font-size: 12px;
-      }
-    }
-  </style>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Edit Pelanggan</h1>
-      <button class="theme-toggle" id="themeToggle" type="button">
-        <i class="fas fa-moon"></i>
-      </button>
+
+<body class="bg-gray-100">
+
+  <!-- WRAPPER -->
+  <div class="min-h-screen flex items-center justify-center px-4">
+
+    <!-- CARD -->
+    <div class="w-full max-w-lg bg-white shadow-xl rounded-2xl p-6 md:p-8">
+
+      <!-- HEADER -->
+      <div class="mb-6 text-center">
+        <h1 class="text-2xl font-bold text-gray-800">
+          Edit Pelanggan
+        </h1>
+      </div>
+
+      <!-- FORM -->
+      <form action="/pelanggan/<%= pelanggan.pelangganid %>/edit" method="POST" id="editForm" class="space-y-5">
+
+        <!-- Nama -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700">Nama</label>
+          <input type="text" name="namapelanggan"
+            value="<%= pelanggan.namapelanggan %>"
+            class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+          <p id="namaError" class="text-red-500 text-xs mt-1 hidden">Nama tidak boleh kosong</p>
+        </div>
+
+        <!-- Alamat -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700">Alamat</label>
+          <textarea name="alamat"
+            class="w-full mt-1 p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 h-24"><%= pelanggan.alamat %></textarea>
+          <p id="alamatError" class="text-red-500 text-xs mt-1 hidden">Alamat tidak boleh kosong</p>
+        </div>
+
+        <!-- Telepon -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700">Telepon</label>
+          <input type="text" name="nomortelepon"
+            value="<%= pelanggan.nomortelepon %>"
+            class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+          <p id="teleponError" class="text-red-500 text-xs mt-1 hidden">Telepon tidak boleh kosong</p>
+        </div>
+
+        <!-- BUTTON -->
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg flex justify-center items-center gap-2 font-medium">
+          <i class="fas fa-save"></i> Update
+        </button>
+
+      </form>
+
+      <!-- BACK -->
+      <a href="/pelanggan"
+        class="block mt-4 text-center bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </a>
+
     </div>
-    <form action="/pelanggan/<%= pelanggan.pelangganid %>/edit" method="POST" id="editForm">
-      <label for="namapelanggan">Nama:</label>
-      <input
-        type="text"
-        name="namapelanggan"
-        id="namapelanggan"
-        value="<%= pelanggan.namapelanggan %>"
-        required
-      />
-      <div class="error" id="namaError">Nama tidak boleh kosong</div>
-
-      <label for="alamat">Alamat:</label>
-      <textarea name="alamat" id="alamat" required><%= pelanggan.alamat %></textarea>
-      <div class="error" id="alamatError">Alamat tidak boleh kosong</div>
-
-      <label for="nomortelepon">Telepon:</label>
-      <input
-        type="text"
-        name="nomortelepon"
-        id="nomortelepon"
-        value="<%= pelanggan.nomortelepon %>"
-        required
-      />
-      <div class="error" id="teleponError">Telepon tidak boleh kosong</div>
-
-      <button type="submit" class="btn btn-primary">
-        <i class="fas fa-save"></i> Update
-      </button>
-    </form>
-    <a href="/pelanggan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke daftar pelanggan</a>
   </div>
 
   <script>
-    // Theme Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
-        ? '<i class="fas fa-sun"></i>'
-        : '<i class="fas fa-moon"></i>';
-    });
-
-    // Form Validation
     const form = document.getElementById('editForm');
-    form.addEventListener('submit', (e) => {
-      const nama = form.querySelector('input[name="namapelanggan"]').value.trim();
-      const alamat = form.querySelector('textarea[name="alamat"]').value.trim();
-      const telepon = form.querySelector('input[name="nomortelepon"]').value.trim();
-      let isValid = true;
 
-      // Reset error messages
-      document.querySelectorAll('.error').forEach((error) => (error.style.display = 'none'));
+    form.addEventListener('submit', (e) => {
+      let valid = true;
+
+      const nama = form.namapelanggan.value.trim();
+      const alamat = form.alamat.value.trim();
+      const telepon = form.nomortelepon.value.trim();
+
+      document.querySelectorAll("p[id$='Error']").forEach(el => el.classList.add('hidden'));
 
       if (!nama) {
-        document.getElementById('namaError').style.display = 'block';
-        isValid = false;
-      }
-      if (!alamat) {
-        document.getElementById('alamatError').style.display = 'block';
-        isValid = false;
-      }
-      if (!telepon) {
-        document.getElementById('teleponError').style.display = 'block';
-        isValid = false;
+        document.getElementById('namaError').classList.remove('hidden');
+        valid = false;
       }
 
-      if (!isValid) {
-        e.preventDefault();
+      if (!alamat) {
+        document.getElementById('alamatError').classList.remove('hidden');
+        valid = false;
       }
+
+      if (!telepon) {
+        document.getElementById('teleponError').classList.remove('hidden');
+        valid = false;
+      }
+
+      if (!valid) e.preventDefault();
     });
   </script>
+
 </body>
 </html>

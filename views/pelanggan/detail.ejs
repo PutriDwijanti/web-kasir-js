@@ -1,153 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail Pelanggan</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .dark-theme {
-      background-color: #1e1e1e;
-      color: #e0e0e0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .dark-theme .container {
-      background: #2c2c2c;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-    h1 {
-      font-size: 24px;
-      color: #333;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .dark-theme h1 {
-      color: #fff;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #333;
-    }
-    .dark-theme .theme-toggle {
-      color: #fff;
-    }
-    .detail-card {
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background: #fafafa;
-      transition: background-color 0.3s;
-    }
-    .dark-theme .detail-card {
-      background: #333;
-      border-color: #555;
-    }
-    .detail-card p {
-      margin: 10px 0;
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .detail-card strong {
-      color: #333;
-      font-weight: 600;
-      flex: 0 0 120px;
-    }
-    .dark-theme .detail-card strong {
-      color: #e0e0e0;
-    }
-    .btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      text-decoration: none;
-      color: white;
-      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 92%;
-      margin-top: 15px;
-    }
-    .btn-back {
-      background-color: #17a2b8;
-    }
-    .btn-back:hover {
-      background-color: #138496;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
-    }
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-      }
-      h1 {
-        font-size: 20px;
-      }
-      .btn {
-        padding: 10px 16px;
-        font-size: 12px;
-      }
-      .detail-card p {
-        flex-direction: column;
-        gap: 5px;
-      }
-      .detail-card strong {
-        flex: none;
-      }
-    }
-  </style>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Detail Pelanggan</h1>
-      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+
+<body class="bg-gray-100">
+
+  <!-- WRAPPER -->
+  <div class="min-h-screen flex items-center justify-center px-4">
+
+    <!-- CARD -->
+    <div class="w-full max-w-xl bg-white p-8 rounded-2xl shadow-xl">
+
+      <!-- HEADER -->
+      <div class="mb-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-800">
+          Detail Pelanggan
+        </h2>
+      </div>
+
+      <!-- DETAIL -->
+      <div class="bg-gray-50 border rounded-xl p-6 space-y-5 text-base">
+
+        <div class="flex justify-between border-b pb-3">
+          <span class="font-semibold text-gray-600">ID</span>
+          <span class="text-gray-800"><%= pelanggan.pelangganid %></span>
+        </div>
+
+        <div class="flex justify-between border-b pb-3">
+          <span class="font-semibold text-gray-600">Nama</span>
+          <span class="text-gray-800 text-right"><%= pelanggan.namapelanggan %></span>
+        </div>
+
+        <div class="flex justify-between border-b pb-3 items-start">
+          <span class="font-semibold text-gray-600">Alamat</span>
+          <span class="text-gray-800 text-right max-w-[65%] break-words">
+            <%= pelanggan.alamat %>
+          </span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-semibold text-gray-600">Telepon</span>
+          <span class="text-gray-800"><%= pelanggan.nomortelepon %></span>
+        </div>
+
+      </div>
+
+      <!-- BUTTON -->
+      <a href="/pelanggan"
+        class="block mt-8 text-center bg-cyan-600 hover:bg-cyan-700 text-white py-3 rounded-lg text-base font-medium transition">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </a>
+
     </div>
-    <div class="detail-card">
-      <p><strong>ID Pelanggan:</strong> <%= pelanggan.pelangganid %></p>
-      <p><strong>Nama:</strong> <%= pelanggan.namapelanggan %></p>
-      <p><strong>Alamat:</strong> <%= pelanggan.alamat %></p>
-      <p><strong>Telepon:</strong> <%= pelanggan.nomortelepon %></p>
-    </div>
-    <a href="/pelanggan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke daftar pelanggan</a>
   </div>
 
-  <script>
-    // Theme Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
-        ? '<i class="fas fa-sun"></i>'
-        : '<i class="fas fa-moon"></i>';
-    });
-  </script>
 </body>
 </html>
