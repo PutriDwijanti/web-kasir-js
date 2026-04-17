@@ -5,95 +5,124 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tambah Penjualan</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tambah Penjualan</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 
 <body class="bg-gray-100 p-6">
 
-<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow">
+<div class="max-w-5xl mx-auto bg-white p-8 rounded-2xl shadow-lg border">
 
-  <h1 class="text-2xl font-bold mb-5">Tambah Penjualan</h1>
+  <!-- HEADER -->
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold">Tambah Penjualan</h1>
 
-  <!-- PELANGGAN -->
-  <label class="block mb-1">Pelanggan</label>
-  <select id="pelanggan" class="w-full p-2 border rounded mb-3">
-    <option value="">-- Pilih Pelanggan --</option>
-  </select>
-
-  <!-- TANGGAL -->
-  <label class="block mb-1">Tanggal</label>
-  <input type="date" id="tanggal" class="w-full p-2 border rounded mb-4">
-
-  <hr class="my-4">
-
-  <!-- PRODUK -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
-    <select id="produk" class="p-2 border rounded col-span-2"></select>
-    <input type="number" id="jumlah" value="1" min="1" class="p-2 border rounded">
+    <a href="/penjualan" 
+       class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 transition">
+      <i class="fa-solid fa-arrow-left"></i>
+      Kembali
+    </a>
   </div>
 
-  <button id="add" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+  <!-- FORM -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+    <div>
+      <label class="text-sm font-semibold">Pelanggan</label>
+      <select id="pelanggan"
+        class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+        <option value="">-- Pilih Pelanggan --</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="text-sm font-semibold">Tanggal</label>
+      <input type="date" id="tanggal"
+        class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+    </div>
+
+  </div>
+
+  <hr class="my-6">
+
+  <!-- PRODUK -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+
+    <select id="produk"
+      class="p-3 border rounded-lg col-span-2 focus:ring-2 focus:ring-blue-400 outline-none">
+    </select>
+
+    <input type="number" id="jumlah" value="1" min="1"
+      class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none">
+
+  </div>
+
+  <button id="add"
+    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition">
     + Tambah Produk
   </button>
 
   <!-- TABLE -->
   <div class="mt-6 overflow-x-auto">
-    <table class="w-full border text-sm">
-      <thead class="bg-gray-200">
+    <table class="w-full border text-sm rounded-lg overflow-hidden">
+
+      <thead class="bg-gray-200 text-left">
         <tr>
-          <th class="p-2">Produk</th>
-          <th>Harga</th>
-          <th>Qty</th>
-          <th>Subtotal</th>
-          <th>Aksi</th>
+          <th class="p-3">Produk</th>
+          <th class="p-3">Harga</th>
+          <th class="p-3">Qty</th>
+          <th class="p-3">Subtotal</th>
+          <th class="p-3">Aksi</th>
         </tr>
       </thead>
+
       <tbody id="cart"></tbody>
+
     </table>
   </div>
 
   <!-- TOTAL -->
-  <div class="mt-4 text-lg font-bold">
-    Total: <span id="total">Rp 0</span>
+  <div class="mt-6 p-4 bg-gray-100 rounded-lg flex justify-between items-center font-bold text-lg">
+    <span>Total</span>
+    <span id="total" class="text-blue-600">Rp 0</span>
   </div>
 
   <!-- BAYAR -->
-<div class="mt-4">
-  <label class="block mb-1">Bayar</label>
+  <div class="mt-5">
+    <label class="text-sm font-semibold">Bayar</label>
 
-  <div class="flex items-center border rounded overflow-hidden">
-    <span class="bg-gray-200 px-3 py-2 text-gray-700">Rp</span>
-    <input id="bayar" type="number" class="w-full p-2 outline-none">
+    <div class="flex border rounded-lg overflow-hidden mt-1">
+      <span class="bg-gray-200 px-4 py-2">Rp</span>
+      <input id="bayar" type="number" class="w-full p-2 outline-none">
+    </div>
   </div>
-</div>
 
   <!-- KEMBALIAN -->
-  <div class="mt-2 text-lg font-bold">
+  <div class="mt-3 text-lg font-bold">
     Kembalian: <span id="kembalian">Rp 0</span>
   </div>
 
-  <!-- BUTTON -->
-  <div class="mt-5 space-y-2">
-
-    <!-- SIMPAN -->
-    <button id="save"
-      class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center gap-2">
-
-      <i class="fa-solid fa-floppy-disk"></i>
-      Simpan Penjualan
-    </button>
-
-    <!-- KEMBALI -->
-    <a href="/penjualan"
-      class="w-full block text-center bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-      ← Kembali ke Index
-    </a>
-
-  </div>
+  <!-- SAVE -->
+  <button id="save"
+    class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition">
+    Simpan Penjualan
+  </button>
 
 </div>
 
 <script>
+// ======================
+// JS TETAP (tidak diubah logika)
+// ======================
+
 let cart = [];
 
 const cartEl = document.getElementById("cart");
@@ -101,32 +130,28 @@ const totalEl = document.getElementById("total");
 const bayarEl = document.getElementById("bayar");
 const kembalianEl = document.getElementById("kembalian");
 
-
-// FIX RUPIAH + 000
 function format(n){
-  return "Rp " + (Number(n) * 1000).toLocaleString("id-ID");
+  return "Rp " + Number(n).toLocaleString("id-ID");
 }
 
-
-// TOTAL
 function total(){
   return cart.reduce((a,b)=>a + (b.harga * b.qty),0);
 }
 
-
-// RENDER CART
 function render(){
   cartEl.innerHTML = "";
 
   cart.forEach((item,i)=>{
     cartEl.innerHTML += `
       <tr class="border-t">
-        <td class="p-2">${item.nama}</td>
-        <td class="p-2">${format(item.harga)}</td>
-        <td class="p-2">${item.qty}</td>
-        <td class="p-2">${format(item.harga * item.qty)}</td>
-        <td class="p-2">
-          <button onclick="hapus(${i})" class="bg-red-500 text-white px-2 py-1 rounded">
+        <td class="p-3">${item.nama}</td>
+        <td class="p-3">${format(item.harga)}</td>
+        <td class="p-3">${item.qty}</td>
+        <td class="p-3">${format(item.harga * item.qty)}</td>
+        <td class="p-3">
+          <button onclick="hapus(${i})"
+            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs flex items-center gap-1">
+            <i class="fa-solid fa-trash"></i>
             Hapus
           </button>
         </td>
@@ -141,26 +166,22 @@ function render(){
   kembalianEl.innerText = format(bayar - t);
 }
 
-
-// HAPUS ITEM
 function hapus(i){
   cart.splice(i,1);
   render();
 }
 
-
-// TAMBAH PRODUK
 document.getElementById("add").onclick = ()=>{
-  const p = document.getElementById("produk");
 
-  if(!p.value) return alert("Pilih produk dulu");
+  const p = document.getElementById("produk");
+  if(!p.value) return alert("Pilih produk");
 
   const nama = p.options[p.selectedIndex].text.split(" - ")[0];
-  const harga = Number(p.options[p.selectedIndex].dataset.harga);
-  const id = p.value;
+  const harga = parseInt(p.options[p.selectedIndex].dataset.harga);
+  const id = Number(p.value);
   const qty = Number(document.getElementById("jumlah").value);
 
-  const exist = cart.find(x=>x.id == id);
+  const exist = cart.find(x=>x.id === id);
 
   if(exist){
     exist.qty += qty;
@@ -171,12 +192,8 @@ document.getElementById("add").onclick = ()=>{
   render();
 };
 
-
-// BAYAR REALTIME
 bayarEl.addEventListener("input", render);
 
-
-// LOAD PRODUK
 async function loadProduk(){
   const res = await fetch("/api/produk");
   const data = await res.json();
@@ -186,14 +203,12 @@ async function loadProduk(){
   data.forEach(p=>{
     const opt = document.createElement("option");
     opt.value = p.produkid;
-    opt.dataset.harga = p.harga;
-    opt.textContent = `${p.namaproduk} - Rp ${(p.harga * 1000).toLocaleString("id-ID")}`;
+    opt.dataset.harga = Number(p.harga);
+    opt.textContent = `${p.namaproduk} - Rp ${Number(p.harga).toLocaleString("id-ID")}`;
     select.appendChild(opt);
   });
 }
 
-
-// LOAD PELANGGAN
 async function loadPelanggan(){
   const res = await fetch("/api/pelanggan");
   const data = await res.json();
@@ -208,9 +223,7 @@ async function loadPelanggan(){
   });
 }
 
-
-// SIMPAN
-document.getElementById("save").onclick = async () => {
+document.getElementById("save").onclick = async ()=>{
 
   const pelangganid = document.getElementById("pelanggan").value;
   const tanggal = document.getElementById("tanggal").value;
@@ -218,48 +231,37 @@ document.getElementById("save").onclick = async () => {
   const t = total();
   const bayar = Number(bayarEl.value);
 
-  if (cart.length === 0) {
-    alert("Keranjang kosong");
-    return;
-  }
+  if(cart.length === 0) return alert("Keranjang kosong");
+  if(bayar < t) return alert("Uang kurang");
 
-  if (bayar < t) {
-    alert("Uang kurang!");
-    return;
-  }
-
-  // 🔥 INI YANG KAMU TANYA → TARUH DI SINI
   const data = {
     pelangganid: Number(pelangganid),
     tanggalpenjualan: tanggal,
-
     items: cart.map(i => ({
-      produkid: Number(i.id),
+      produkid: i.id,
       qty: i.qty,
-      hargasatuan: i.harga * 1000
+      hargasatuan: i.harga
     })),
-
-    bayar: bayar * 1000,
-    kembalian: (bayar - t) * 1000
+    bayar,
+    kembalian: bayar - t
   };
 
-  const res = await fetch("/penjualan", {
+  const res = await fetch("/api/penjualan", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type":"application/json"},
     body: JSON.stringify(data)
   });
 
-  if (res.ok) {
-    alert("Penjualan berhasil!");
+  if(res.ok){
+    alert("Berhasil");
     location.href = "/penjualan";
   } else {
-    alert("Gagal simpan");
+    alert("Gagal");
   }
 };
 
 loadProduk();
 loadPelanggan();
-
 </script>
 
 </body>

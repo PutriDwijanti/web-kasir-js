@@ -1,22 +1,30 @@
 const Produk = require('../models/produkModel');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = [
-  // Tampilkan semua produk
+
+  // =========================
+  // LIST PRODUK
+  // =========================
   {
     method: 'GET',
     path: '/produk',
     handler: async (request, h) => {
       const produk = await new Promise((resolve, reject) => {
         Produk.getAll((err, rows) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(rows);
         });
       });
+
       return h.view('produk/index', { produk });
     }
   },
 
-  // Form tambah produk
+  // =========================
+  // FORM CREATE
+  // =========================
   {
     method: 'GET',
     path: '/produk/create',
@@ -25,73 +33,136 @@ module.exports = [
     }
   },
 
-  // Proses tambah produk
+  // =========================
+  // CREATE + UPLOAD GAMBAR
+  // =========================
   {
     method: 'POST',
     path: '/produk/create',
+    options: {
+      payload: {
+        parse: true,
+        multipart: true,
+        output: 'stream',
+        maxBytes: 10 * 1024 * 1024
+      }
+    },
+
     handler: async (request, h) => {
-const { namaproduk, harga, stok } = request.payload;
+      try {
+        const { namaproduk, harga, stok } = request.payload;
 
-const data = {
-  nama: namaproduk,
-  harga,
-  stock: stok,
-};
+        let filename = null; // ✔ hanya sekali
 
-      await new Promise((resolve, reject) => {
-        Produk.create(data, (err) => {
-          if (err) reject(err);
-          resolve(true);
+        const file = request.payload.gambar;
+
+        if (file && file.hapi) {
+          filename = Date.now() + '-' + file.hapi.filename;
+
+          const uploadPath = path.join(process.cwd(), 'public/uploads', filename);
+
+          const fileStream = fs.createWriteStream(uploadPath);
+
+          await new Promise((resolve, reject) => {
+            file.pipe(fileStream);
+
+            file.on('error', reject);
+            fileStream.on('finish', resolve);
+          });
+        }
+
+        const data = {
+          nama: namaproduk,
+          harga: Number(harga),
+          stok: Number(stok),
+          gambar: filename
+        };
+
+        await new Promise((resolve, reject) => {
+          Produk.create(data, (err) => {
+            if (err) return reject(err);
+            resolve(true);
+          });
         });
-      });
 
-      return h.redirect('/produk');
+        return h.redirect('/produk');
+
+      } catch (err) {
+        console.error(err);
+        return h.response('Gagal upload produk').code(500);
+      }
     }
   },
 
-  // Form edit produk
-{
-  method: 'GET',
-  path: '/produk/edit/{id}',
-  handler: async (request, h) => {
-    const id = request.params.id;
+  // =========================
+  // FORM EDIT
+  // =========================
+  {
+    method: 'GET',
+    path: '/produk/edit/{id}',
+    handler: async (request, h) => {
+      const id = request.params.id;
 
-    try {
       const produk = await new Promise((resolve, reject) => {
         Produk.getById(id, (err, rows) => {
           if (err) return reject(err);
-          if (!rows || rows.length === 0) return reject(new Error('Produk tidak ditemukan'));
+          if (!rows || rows.length === 0) return reject(new Error('Not found'));
           resolve(rows[0]);
         });
       });
 
       return h.view('produk/edit', { produk });
-    } catch (err) {
-      console.error('Error saat mengambil data produk:', err.message);
-      return h.response('Terjadi kesalahan saat mengambil data produk').code(500);
     }
-  }
-},
+  },
 
-
-  // Proses update produk
+  // =========================
+  // UPDATE + GAMBAR OPTIONAL
+  // =========================
   {
     method: 'POST',
     path: '/produk/edit/{id}',
+    options: {
+      payload: {
+        parse: true,
+        multipart: true,
+        output: 'stream'
+      }
+    },
+
     handler: async (request, h) => {
       const id = request.params.id;
       const { namaproduk, harga, stok } = request.payload;
 
+      let filename = null; // ✔ FIX DUPLIKAT DIHAPUS
+
+      const file = request.payload.gambar;
+
+      if (file && file.hapi) {
+        filename = Date.now() + '-' + file.hapi.filename;
+
+        const uploadPath = path.join(process.cwd(), 'public/uploads', filename);
+
+        const fileStream = fs.createWriteStream(uploadPath);
+
+        await new Promise((resolve, reject) => {
+          file.pipe(fileStream);
+
+          file.on('error', reject);
+          fileStream.on('finish', resolve);
+        });
+      }
+
       const data = {
-      produkid: id,
-      namaproduk,
-      harga,
-      stok,
-       };
+        produkid: id,
+        namaproduk,
+        harga: Number(harga),
+        stok: Number(stok),
+        gambar: filename
+      };
 
       await new Promise((resolve, reject) => {
         Produk.update(data, (err) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(true);
         });
       });
@@ -100,7 +171,9 @@ const data = {
     }
   },
 
-  // Hapus produk
+  // =========================
+  // DELETE
+  // =========================
   {
     method: 'POST',
     path: '/produk/hapus/{id}',
@@ -109,7 +182,7 @@ const data = {
 
       await new Promise((resolve, reject) => {
         Produk.hapus(id, (err) => {
-          if (err) reject(err);
+          if (err) return reject(err);
           resolve(true);
         });
       });
@@ -118,24 +191,24 @@ const data = {
     }
   },
 
-  // Detail produk
+  // =========================
+  // DETAIL
+  // =========================
   {
     method: 'GET',
     path: '/produk/detail/{id}',
     handler: async (request, h) => {
       const id = request.params.id;
-      try {
-        const produk = await new Promise((resolve, reject) => {
-          Produk.getById(id, (err, rows) => {
-            if (err) return reject(err);
-            if (!rows || rows.length === 0) return reject(new Error('Produk tidak ditemukan'));
-            resolve(rows[0]);
-          });
+
+      const produk = await new Promise((resolve, reject) => {
+        Produk.getById(id, (err, rows) => {
+          if (err) return reject(err);
+          if (!rows || rows.length === 0) return reject(new Error('Not found'));
+          resolve(rows[0]);
         });
-        return h.view('produk/detail', { produk });
-      } catch (error) {
-        return h.response('Produk tidak ditemukan').code(404);
-      }
+      });
+
+      return h.view('produk/detail', { produk });
     }
   }
 ];

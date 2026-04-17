@@ -26,7 +26,11 @@
     </div>
 
     <!-- Form -->
-    <form action="/produk/edit/<%= produk.produkid %>" method="POST" id="editForm" class="space-y-4">
+    <form action="/produk/edit/<%= produk.produkid %>" 
+      method="POST"
+      enctype="multipart/form-data"
+      id="editForm"
+      class="space-y-4">
 
       <!-- ID -->
       <div>
@@ -36,6 +40,8 @@
           readonly
           class="w-full mt-1 px-3 py-2 rounded-lg bg-gray-200 text-gray-600 cursor-not-allowed">
       </div>
+
+      <input type="hidden" name="gambarLama" value="<%= produk.gambar %>">
 
       <!-- Nama -->
       <div>
@@ -64,6 +70,25 @@
         <p class="text-red-500 text-xs mt-1 hidden" id="stokError">Stok tidak valid</p>
       </div>
 
+      <!-- GAMBAR LAMA -->
+    <div class="mb-2">
+      <label class="block text-sm font-medium text-gray-700">Gambar Saat Ini</label>
+
+    <% if (produk.gambar) { %>
+      <img src="/uploads/<%= produk.gambar %>"
+          class="w-24 h-24 object-cover rounded border mt-2">
+    <% } else { %>
+      <p class="text-gray-400 text-sm mt-1">Tidak ada gambar</p>
+    <% } %>
+  </div>
+
+  <!-- UPLOAD GAMBAR BARU -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700">Ganti Gambar</label>
+    <input type="file" name="gambar"
+      accept="image/*"
+      class="w-full mt-1 px-3 py-2 border rounded-lg">
+  </div>
       <!-- Button -->
       <button type="submit"
         class="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 transition">

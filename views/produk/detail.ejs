@@ -44,7 +44,7 @@
       <div class="flex justify-between border-b pb-3">
         <span class="font-semibold">Harga</span>
         <span class="text-green-600 font-bold text-lg">
-          Rp <%= Number(produk.harga).toLocaleString('id-ID') %>
+         Rp <%= (Number(produk.harga) * 1000).toLocaleString('id-ID') %>
         </span>
       </div>
 
@@ -53,6 +53,20 @@
         <span class="text-blue-600 font-bold text-lg">
           <%= produk.stok %>
         </span>
+      </div>
+      <!-- GAMBAR PRODUK -->
+      <div class="flex justify-center mb-6">
+        <% if (produk.gambar) { %>
+          <img 
+            src="/uploads/<%= produk.gambar %>" 
+            alt="Gambar Produk"
+            class="w-48 h-48 object-cover rounded-xl shadow border"
+          >
+        <% } else { %>
+          <div class="w-48 h-48 bg-gray-200 rounded-xl flex items-center justify-center text-gray-500">
+            Tidak ada gambar
+          </div>
+        <% } %>
       </div>
 
     </div>

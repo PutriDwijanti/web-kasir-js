@@ -3,26 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Struk Penjualan</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
+  <title>Struk Pembelian</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-  @media print {
-    .no-print {
-      display: none !important;
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+      }
     }
-  }
-</style>
+  </style>
 </head>
 
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
 
-  <div class="max-w-md mx-auto bg-white rounded-xl shadow p-6">
+  <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
 
     <!-- HEADER -->
     <div class="text-center mb-4">
       <h1 class="text-xl font-bold">KASIRKU</h1>
-      <p class="text-sm text-gray-500">Struk Penjualan</p>
+      <p class="text-sm text-gray-500">Struk Pembelian</p>
       <p class="text-xs">ID: <%= penjualan.penjualanid %></p>
     </div>
 
@@ -58,50 +63,50 @@
 
     <hr class="my-2">
 
-<!-- TOTAL -->
-<div class="flex justify-between font-bold mt-3">
-  <span>Total</span>
-  <span>Rp <%= Number(total).toLocaleString('id-ID') %></span>
-</div>
+    <!-- TOTAL -->
+    <div class="flex justify-between font-bold mt-3">
+      <span>Subtotal</span>
+      <span>Rp <%= Number(total).toLocaleString('id-ID') %></span>
+    </div>
 
-<!-- BAYAR -->
-<div class="flex justify-between mt-2">
-  <span>Bayar</span>
-  <span>Rp <%= Number(penjualan.bayar || 0).toLocaleString('id-ID') %></span>
-</div>
+    <!-- BAYAR -->
+    <div class="flex justify-between mt-2">
+      <span>Tunai</span>
+      <span>Rp <%= Number(penjualan.bayar || 0).toLocaleString('id-ID') %></span>
+    </div>
 
-<!-- KEMBALIAN -->
-<div class="flex justify-between">
-  <span>Kembalian</span>
-  <span>Rp <%= Number(penjualan.kembalian || 0).toLocaleString('id-ID') %></span>
-</div>
+    <!-- KEMBALIAN -->
+    <div class="flex justify-between">
+      <span>Kembalian</span>
+      <span>Rp <%= Number(penjualan.kembalian || 0).toLocaleString('id-ID') %></span>
+    </div>
 
-<!-- GARIS -->
-<hr class="my-4 border-dashed">
+    <hr class="my-4 border-dashed">
 
-<!-- UCAPAN -->
-<div class="text-center text-gray-600 text-sm">
-  <p class="font-semibold">Terima Kasih Telah Berbelanja</p>
-  <p class="text-xs mt-1">Semoga hari Anda menyenangkan</p>
-</div>
+    <!-- UCAPAN -->
+    <div class="text-center text-gray-600 text-sm">
+      <p class="font-semibold">Terima Kasih Telah Berbelanja</p>
+      <p class="text-xs mt-1">Semoga hari Anda menyenangkan</p>
+    </div>
 
-<!-- FOOTER -->
-<div class="text-center text-xs text-gray-400 mt-3">
-  <p>KASIRKU © 2026</p>
-</div>
+    <!-- FOOTER -->
+    <div class="text-center text-xs text-gray-400 mt-3">
+      <p>KASIRKU © 2026</p>
+    </div>
 
-<!-- BUTTON -->
-<div class="mt-5 flex gap-2 no-print">
-  <button onclick="window.print()"
-    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full flex items-center justify-center gap-2">
-    <i class="fas fa-print"></i> Cetak Struk
-  </button>
+    <!-- BUTTON -->
+    <div class="mt-5 flex gap-2 no-print">
+      <button onclick="window.print()"
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full flex items-center justify-center gap-2">
+        <i class="fas fa-print"></i> Cetak
+      </button>
 
-  <a href="/penjualan"
-    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full text-center flex items-center justify-center gap-2">
-    <i class="fas fa-arrow-left"></i> Kembali
-  </a>
-</div>
+      <a href="/penjualan"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full flex items-center justify-center gap-2">
+        <i class="fas fa-arrow-left"></i> Kembali
+      </a>
+    </div>
+
   </div>
 
 </body>

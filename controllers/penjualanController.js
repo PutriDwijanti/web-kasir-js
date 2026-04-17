@@ -1,6 +1,7 @@
 const Penjualan = require('../models/penjualanModel');
 const DetailPenjualan = require('../models/detailPenjualanModel');
 const Pelanggan = require('../models/pelangganModel');
+const Produk = require('../models/produkModel');
 
 // GET all penjualan lengkap dengan detail
 // @ts-ignore
@@ -30,51 +31,96 @@ exports.getById = async (request, h) => {
 
 // CREATE penjualan + detail penjualan (transaksi banyak barang)
 exports.create = async (request, h) => {
+  console.log("PAYLOAD:", request.payload);
   const { tanggalpenjualan, pelangganid, namapelanggan, items, bayar } = request.payload;
 
   if (!tanggalpenjualan || !pelangganid || !Array.isArray(items) || items.length === 0) {
     return h.response({ message: 'Data tidak lengkap' }).code(400);
   }
 
+  const conn = await require('../config/db').promise().getConnection();
+
   try {
-    const totalharga = items.reduce((sum, item) => sum + (item.qty * item.hargasatuan), 0);
+    await conn.beginTransaction();
+
+    let totalharga = 0;
+
+    // =========================
+    // KURANGI STOK (AMAN)
+    // =========================
+    for (const item of items) {
+      const pId = Number(item.produkid);
+      const q = Number(item.qty);
+
+      const [result] = await conn.query(
+        `UPDATE produk 
+         SET stok = stok - ? 
+         WHERE produkid = ? AND stok >= ?`,
+        [q, pId, q]
+      );
+
+      if (result.affectedRows === 0) {
+        throw new Error(`Stok produk ID ${pId} tidak cukup`);
+      }
+
+      const harga = Number(String(item.hargasatuan).replace(/\./g, ''));
+      totalharga += q * harga;
+    }
 
     const kembalian = bayar - totalharga;
 
-    const penjualanId = await Penjualan.create({
-      pelangganid,
-      namapelanggan,
-      tanggalpenjualan,
-      items,
-      bayar,
-      kembalian,
-      totalharga
-    });
+    // =========================
+    // SIMPAN PENJUALAN
+    // =========================
+    const [penjualanResult] = await conn.query(
+      `INSERT INTO penjualan 
+      (pelangganid, namapelanggan, tanggalpenjualan, bayar, kembalian, totalharga)
+      VALUES (?, ?, ?, ?, ?, ?)`,
+      [pelangganid, namapelanggan, tanggalpenjualan, bayar, kembalian, totalharga]
+    );
+
+    const penjualanId = penjualanResult.insertId;
+
+    // =========================
+    // SIMPAN DETAIL PENJUALAN
+    // =========================
+    for (const item of items) {
+      await conn.query(
+        `INSERT INTO detail_penjualan 
+        (penjualanid, produkid, qty, hargasatuan)
+        VALUES (?, ?, ?, ?)`,
+        [
+          penjualanId,
+          item.produkid,
+          item.qty,
+          item.hargasatuan
+        ]
+      );
+    }
+
+    // =========================
+    // COMMIT
+    // =========================
+    await conn.commit();
 
     return h.response({
-      message: 'Penjualan berhasil ditambahkan',
+      message: 'Penjualan berhasil & stok otomatis berkurang',
       penjualanid: penjualanId,
+      totalharga,
+      kembalian
     }).code(201);
 
   } catch (err) {
-    return h.response({ error: err.message }).code(500);
-  }
-};
-// UPDATE penjualan (hanya tanggal & pelanggan)
-exports.update = async (request, h) => {
-  const id = request.params.id;
-  const { tanggalpenjualan, pelangganid } = request.payload;
+    await conn.rollback();
 
-  if (!tanggalpenjualan || !pelangganid) {
-    return h.response({ message: 'Data tidak lengkap' }).code(400);
-  }
+    console.error("ERROR TRANSAKSI:", err.message);
 
-  try {
-    // @ts-ignore
-    await Penjualan.update(id, { tanggalpenjualan, pelangganid });
-    return h.response({ message: 'Penjualan berhasil diupdate' }).code(200);
-  } catch (err) {
-    return h.response({ error: err.message }).code(500);
+    return h.response({
+      error: err.message
+    }).code(400);
+
+  } finally {
+    conn.release();
   }
 };
 
@@ -132,6 +178,25 @@ exports.showStruk = async (request, h) => {
 
   } catch (err) {
     console.error("ERROR STRUK:", err);
+    return h.response({ error: err.message }).code(500);
+  }
+};
+exports.update = async (request, h) => {
+  const id = request.params.id;
+  const { tanggalpenjualan, pelangganid } = request.payload;
+
+  if (!tanggalpenjualan || !pelangganid) {
+    return h.response({ message: 'Data tidak lengkap' }).code(400);
+  }
+
+  try {
+    await Penjualan.update(id, { tanggalpenjualan, pelangganid });
+
+    return h.response({
+      message: 'Penjualan berhasil diupdate'
+    }).code(200);
+
+  } catch (err) {
     return h.response({ error: err.message }).code(500);
   }
 };

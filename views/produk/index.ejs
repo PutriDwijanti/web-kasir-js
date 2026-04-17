@@ -18,7 +18,7 @@
 
   <div class="w-full max-w-6xl bg-white p-5 md:p-6 rounded-xl shadow">
 
-    <!-- Header -->
+    <!-- HEADER -->
     <div class="flex flex-col gap-4 mb-6">
 
       <h1 class="text-xl md:text-2xl font-bold text-gray-800 text-center md:text-left">
@@ -27,12 +27,12 @@
 
       <div class="flex flex-col sm:flex-row gap-2">
 
-        <!-- Search -->
+        <!-- SEARCH -->
         <input type="text" id="searchInput"
           placeholder="Cari produk..."
           class="px-3 py-2 border rounded-lg w-full sm:flex-1 focus:ring-2 focus:ring-blue-400 outline-none">
 
-        <!-- Buttons -->
+        <!-- BUTTON -->
         <div class="flex gap-2 w-full sm:w-auto">
 
           <a href="/produk/create"
@@ -50,13 +50,14 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <!-- TABLE -->
     <div class="overflow-x-auto rounded-lg border">
 
       <table class="w-full text-sm">
 
         <thead class="bg-blue-500 text-white">
           <tr>
+            <th class="px-3 py-3 text-left">Gambar</th>
             <th class="px-3 py-3 text-left">ID</th>
             <th class="px-3 py-3 text-left">Nama Produk</th>
             <th class="px-3 py-3 text-left">Harga</th>
@@ -69,6 +70,18 @@
 
           <% produk.forEach(item => { %>
           <tr class="hover:bg-gray-50 transition">
+
+            <!-- GAMBAR -->
+            <td class="px-3 py-2">
+              <% if (item.gambar) { %>
+                <img src="/uploads/<%= item.gambar %>"
+                     class="w-12 h-12 object-cover rounded border">
+              <% } else { %>
+                <div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-xs text-gray-500">
+                  No Img
+                </div>
+              <% } %>
+            </td>
 
             <td class="px-3 py-2"><%= item.produkid %></td>
 
@@ -85,6 +98,7 @@
               </span>
             </td>
 
+            <!-- ACTION -->
             <td class="px-3 py-2">
               <div class="flex flex-wrap gap-2 justify-center">
 
@@ -166,18 +180,18 @@ document.getElementById('nextBtn').addEventListener('click', () => {
 // INIT
 showPage(currentPage);
 
-// Search
+// SEARCH
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('input', () => {
   const filter = searchInput.value.toLowerCase();
 
   rows.forEach(row => {
-    const nama = row.cells[1].textContent.toLowerCase();
+    const nama = row.cells[2].textContent.toLowerCase();
     row.style.display = nama.includes(filter) ? '' : 'none';
   });
 });
 
-// Delete
+// DELETE
 function confirmDelete() {
   return confirm('Yakin hapus produk ini?');
 }
