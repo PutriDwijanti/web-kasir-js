@@ -1,446 +1,266 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah Penjualan Baru</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .dark-theme {
-      background-color: #1e1e1e;
-      color: #e0e0e0;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .dark-theme .container {
-      background: #2c2c2c;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    }
-    h1 {
-      font-size: 24px;
-      color: #333;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .dark-theme h1 {
-      color: #fff;
-    }
-    h3 {
-      font-size: 18px;
-      color: #333;
-      margin: 15px 0;
-    }
-    .dark-theme h3 {
-      color: #e0e0e0;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .theme-toggle {
-      background: none;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      color: #333;
-    }
-    .dark-theme .theme-toggle {
-      color: #fff;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-    label {
-      font-size: 14px;
-      margin-bottom: 5px;
-      color: #333;
-    }
-    .dark-theme label {
-      color: #e0e0e0;
-    }
-    select, input[type="number"], input[type="date"] {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-      margin-bottom: 15px;
-      width: 100%;
-      max-width: 300px;
-      transition: border-color 0.3s;
-    }
-    .dark-theme select, .dark-theme input[type="number"], .dark-theme input[type="date"] {
-      background: #333;
-      border-color: #555;
-      color: #fff;
-    }
-    select:focus, input:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-    }
-    hr {
-      border: 0;
-      border-top: 1px solid #ddd;
-      margin: 20px 0;
-    }
-    .dark-theme hr {
-      border-color: #444;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin-top: 15px;
-    }
-    .dark-theme table {
-      background: #2c2c2c;
-    }
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    .dark-theme th, .dark-theme td {
-      border-bottom: 1px solid #444;
-    }
-    th {
-      background-color: #007bff;
-      color: white;
-    }
-    .dark-theme th {
-      background-color: #004085;
-    }
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-    .dark-theme tr:hover {
-      background-color: #333;
-    }
-    .btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      text-decoration: none;
-      color: white;
-      transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: center;
-    }
-    .btn-primary {
-      background-color: #28a745;
-      margin: 10px 0;
-    }
-    .btn-primary:hover {
-      background-color: #218838;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-    }
-    .btn-delete {
-      background-color: #dc3545;
-      padding: 8px 12px;
-      font-size: 12px;
-    }
-    .btn-delete:hover {
-      background-color: #c82333;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-    }
-    .btn-back {
-      background-color: #17a2b8;
-      margin-top: 15px;
-      width: 94%;
-      text-align: center;
-    }
-    .btn-back:hover {
-      background-color: #138496;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
-    }
-    .total-harga {
-      font-size: 18px;
-      color: #333;
-      margin: 20px 0;
-    }
-    .dark-theme .total-harga {
-      color: #e0e0e0;
-    }
-    .total-harga span {
-      color: #007bff;
-      font-weight: bold;
-    }
-    .dark-theme .total-harga span {
-      color: #4dabf7;
-    }
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-      }
-      h1 {
-        font-size: 20px;
-      }
-      h3 {
-        font-size: 16px;
-      }
-      select, input[type="number"], input[type="date"] {
-        max-width: 100%;
-      }
-      table {
-        font-size: 14px;
-      }
-      .btn {
-        padding: 10px 16px;
-        font-size: 12px;
-      }
-      .btn-delete {
-        padding: 6px 8px;
-        font-size: 10px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tambah Penjualan</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Tambah Penjualan Baru</h1>
-      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
-    </div>
 
-    <form id="formPenjualan">
-      <label for="pelanggan">Pilih Pelanggan:</label>
-      <select id="pelanggan" name="pelangganid" required>
-        <option value="">-- Pilih Pelanggan --</option>
-      </select>
+<body class="bg-gray-100 p-6">
 
-      <label for="tanggal">Tanggal Penjualan:</label>
-      <input type="date" id="tanggal" name="tanggalpenjualan" required />
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow">
 
-      <hr>
+  <h1 class="text-2xl font-bold mb-5">Tambah Penjualan</h1>
 
-      <h3>Tambah Produk ke Keranjang</h3>
-      <label for="produk">Pilih Produk:</label>
-      <select id="produk">
-        <option value="">-- Pilih Produk --</option>
-      </select>
+  <!-- PELANGGAN -->
+  <label class="block mb-1">Pelanggan</label>
+  <select id="pelanggan" class="w-full p-2 border rounded mb-3">
+    <option value="">-- Pilih Pelanggan --</option>
+  </select>
 
-      <label for="jumlah">Jumlah:</label>
-      <input type="number" id="jumlah" min="1" value="1" />
+  <!-- TANGGAL -->
+  <label class="block mb-1">Tanggal</label>
+  <input type="date" id="tanggal" class="w-full p-2 border rounded mb-4">
 
-      <button type="button" id="btnTambahProduk" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Produk</button>
+  <hr class="my-4">
 
-      <h3>Keranjang Belanja</h3>
-      <table id="tabelKeranjang">
-        <thead>
-          <tr>
-            <th>Produk</th>
-            <th>Harga Satuan</th>
-            <th>Jumlah</th>
-            <th>Subtotal</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- List produk yang ditambahkan akan tampil di sini -->
-        </tbody>
-      </table>
-
-      <div class="total-harga">Total Harga: Rp <span id="totalHarga">0</span></div>
-
-      <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan Penjualan</button>
-    </form>
-
-    <a href="/penjualan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke daftar penjualan</a>
+  <!-- PRODUK -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mb-3">
+    <select id="produk" class="p-2 border rounded col-span-2"></select>
+    <input type="number" id="jumlah" value="1" min="1" class="p-2 border rounded">
   </div>
 
-  <script>
-    const produkSelect = document.getElementById('produk');
-    const jumlahInput = document.getElementById('jumlah');
-    const btnTambahProduk = document.getElementById('btnTambahProduk');
-    const tabelKeranjangBody = document.querySelector('#tabelKeranjang tbody');
-    const totalHargaSpan = document.getElementById('totalHarga');
-    const formPenjualan = document.getElementById('formPenjualan');
+  <button id="add" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+    + Tambah Produk
+  </button>
 
-    let keranjang = [];
+  <!-- TABLE -->
+  <div class="mt-6 overflow-x-auto">
+    <table class="w-full border text-sm">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="p-2">Produk</th>
+          <th>Harga</th>
+          <th>Qty</th>
+          <th>Subtotal</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="cart"></tbody>
+    </table>
+  </div>
 
-    function renderKeranjang() {
-      tabelKeranjangBody.innerHTML = '';
-      let totalHarga = 0;
+  <!-- TOTAL -->
+  <div class="mt-4 text-lg font-bold">
+    Total: <span id="total">Rp 0</span>
+  </div>
 
-      keranjang.forEach((item, index) => {
-        const subtotal = item.harga * item.jumlah;
-        totalHarga += subtotal;
+  <!-- BAYAR -->
+<div class="mt-4">
+  <label class="block mb-1">Bayar</label>
 
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${item.nama}</td>
-          <td>Rp ${item.harga.toLocaleString('id-ID')}</td>
-          <td>${item.jumlah}</td>
-          <td>Rp ${subtotal.toLocaleString('id-ID')}</td>
-          <td><button type="button" data-index="${index}" class="btn btn-delete"><i class="fas fa-trash"></i> Hapus</button></td>
-        `;
-        tabelKeranjangBody.appendChild(tr);
-      });
+  <div class="flex items-center border rounded overflow-hidden">
+    <span class="bg-gray-200 px-3 py-2 text-gray-700">Rp</span>
+    <input id="bayar" type="number" class="w-full p-2 outline-none">
+  </div>
+</div>
 
-      totalHargaSpan.textContent = totalHarga.toLocaleString('id-ID');
-    }
+  <!-- KEMBALIAN -->
+  <div class="mt-2 text-lg font-bold">
+    Kembalian: <span id="kembalian">Rp 0</span>
+  </div>
 
-    btnTambahProduk.addEventListener('click', () => {
-      const produkId = produkSelect.value;
-      if (!produkId) {
-        alert('Pilih produk terlebih dahulu');
-        return;
-      }
+  <!-- BUTTON -->
+  <div class="mt-5 space-y-2">
 
-      const produkOption = produkSelect.options[produkSelect.selectedIndex];
-      const produkNama = produkOption.text.split(' - ')[0];
-      const harga = Number(produkOption.dataset.harga);
-      const jumlah = Number(jumlahInput.value);
+    <!-- SIMPAN -->
+    <button id="save"
+      class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center gap-2">
 
-      if (!jumlah || jumlah <= 0) {
-        alert('Jumlah harus lebih dari 0');
-        return;
-      }
+      <i class="fa-solid fa-floppy-disk"></i>
+      Simpan Penjualan
+    </button>
 
-      // Cek apakah produk sudah ada di keranjang
-      const existingIndex = keranjang.findIndex(item => item.produkid == produkId);
-      if (existingIndex >= 0) {
-        keranjang[existingIndex].jumlah += jumlah;
-      } else {
-        keranjang.push({ produkid: produkId, nama: produkNama, harga, jumlah });
-      }
+    <!-- KEMBALI -->
+    <a href="/penjualan"
+      class="w-full block text-center bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+      ← Kembali ke Index
+    </a>
 
-      renderKeranjang();
+  </div>
 
-      // Reset input produk dan jumlah
-      produkSelect.value = '';
-      jumlahInput.value = 1;
-    });
+</div>
 
-    tabelKeranjangBody.addEventListener('click', (e) => {
-      if (e.target.closest('.btn-delete')) {
-        const index = e.target.closest('.btn-delete').dataset.index;
-        keranjang.splice(index, 1);
-        renderKeranjang();
-      }
-    });
+<script>
+let cart = [];
 
-    formPenjualan.addEventListener('submit', async (e) => {
-      e.preventDefault();
+const cartEl = document.getElementById("cart");
+const totalEl = document.getElementById("total");
+const bayarEl = document.getElementById("bayar");
+const kembalianEl = document.getElementById("kembalian");
 
-      if (keranjang.length === 0) {
-        alert('Keranjang masih kosong');
-        return;
-      }
 
-      const pelangganid = formPenjualan.pelangganid.value;
-      const tanggalpenjualan = formPenjualan.tanggalpenjualan.value;
+// FIX RUPIAH + 000
+function format(n){
+  return "Rp " + (Number(n) * 1000).toLocaleString("id-ID");
+}
 
-      if (!pelangganid || !tanggalpenjualan) {
-        alert('Lengkapi data pelanggan dan tanggal penjualan');
-        return;
-      }
 
-      const data = {
-        pelangganid: parseInt(pelangganid),
-        tanggalpenjualan,
-        items: keranjang.map(item => ({
-          produkid: parseInt(item.produkid),
-          qty: item.jumlah,
-          hargasatuan: item.harga
-        }))
-      };
+// TOTAL
+function total(){
+  return cart.reduce((a,b)=>a + (b.harga * b.qty),0);
+}
 
-      try {
-        const response = await fetch('/penjualan', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
 
-        if (!response.ok) {
-          const error = await response.json();
-          alert('Gagal menyimpan penjualan: ' + (error.message || 'Error tidak diketahui'));
-          return;
-        }
+// RENDER CART
+function render(){
+  cartEl.innerHTML = "";
 
-        alert('Penjualan berhasil disimpan!');
-        window.location.href = '/penjualan';
-      } catch (err) {
-        alert('Error: ' + err.message);
-      }
-    });
+  cart.forEach((item,i)=>{
+    cartEl.innerHTML += `
+      <tr class="border-t">
+        <td class="p-2">${item.nama}</td>
+        <td class="p-2">${format(item.harga)}</td>
+        <td class="p-2">${item.qty}</td>
+        <td class="p-2">${format(item.harga * item.qty)}</td>
+        <td class="p-2">
+          <button onclick="hapus(${i})" class="bg-red-500 text-white px-2 py-1 rounded">
+            Hapus
+          </button>
+        </td>
+      </tr>
+    `;
+  });
 
-    async function loadPelanggan() {
-      try {
-        const res = await fetch('/api/pelanggan');
-        if (!res.ok) throw new Error('Gagal memuat data pelanggan');
-        const data = await res.json();
-        const pelangganSelect = document.getElementById('pelanggan');
-        pelangganSelect.innerHTML = '<option value="">-- Pilih Pelanggan --</option>';
-        data.forEach(p => {
-          const opt = document.createElement('option');
-          opt.value = p.pelangganid;
-          opt.textContent = p.namapelanggan;
-          pelangganSelect.appendChild(opt);
-        });
-      } catch (err) {
-        alert(err.message);
-      }
-    }
+  const t = total();
+  totalEl.innerText = format(t);
 
-    async function loadProduk() {
-      try {
-        const res = await fetch('/api/produk');
-        if (!res.ok) throw new Error('Gagal memuat data produk');
-        const data = await res.json();
-        produkSelect.innerHTML = '<option value="">-- Pilih Produk --</option>';
-        data.forEach(p => {
-          const opt = document.createElement('option');
-          opt.value = p.produkid;
-          opt.dataset.harga = p.harga;
-          opt.textContent = `${p.namaproduk} - Rp ${p.harga.toLocaleString('id-ID')}`;
-          produkSelect.appendChild(opt);
-        });
-      } catch (err) {
-        alert(err.message);
-      }
-    }
+  const bayar = Number(bayarEl.value || 0);
+  kembalianEl.innerText = format(bayar - t);
+}
 
-    // Theme Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark-theme');
-      themeToggle.innerHTML = document.body.classList.contains('dark-theme')
-        ? '<i class="fas fa-sun"></i>'
-        : '<i class="fas fa-moon"></i>';
-    });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      loadPelanggan();
-      loadProduk();
-    });
-  </script>
+// HAPUS ITEM
+function hapus(i){
+  cart.splice(i,1);
+  render();
+}
+
+
+// TAMBAH PRODUK
+document.getElementById("add").onclick = ()=>{
+  const p = document.getElementById("produk");
+
+  if(!p.value) return alert("Pilih produk dulu");
+
+  const nama = p.options[p.selectedIndex].text.split(" - ")[0];
+  const harga = Number(p.options[p.selectedIndex].dataset.harga);
+  const id = p.value;
+  const qty = Number(document.getElementById("jumlah").value);
+
+  const exist = cart.find(x=>x.id == id);
+
+  if(exist){
+    exist.qty += qty;
+  } else {
+    cart.push({id,nama,harga,qty});
+  }
+
+  render();
+};
+
+
+// BAYAR REALTIME
+bayarEl.addEventListener("input", render);
+
+
+// LOAD PRODUK
+async function loadProduk(){
+  const res = await fetch("/api/produk");
+  const data = await res.json();
+
+  const select = document.getElementById("produk");
+
+  data.forEach(p=>{
+    const opt = document.createElement("option");
+    opt.value = p.produkid;
+    opt.dataset.harga = p.harga;
+    opt.textContent = `${p.namaproduk} - Rp ${(p.harga * 1000).toLocaleString("id-ID")}`;
+    select.appendChild(opt);
+  });
+}
+
+
+// LOAD PELANGGAN
+async function loadPelanggan(){
+  const res = await fetch("/api/pelanggan");
+  const data = await res.json();
+
+  const select = document.getElementById("pelanggan");
+
+  data.forEach(p=>{
+    const opt = document.createElement("option");
+    opt.value = p.pelangganid;
+    opt.textContent = p.namapelanggan;
+    select.appendChild(opt);
+  });
+}
+
+
+// SIMPAN
+document.getElementById("save").onclick = async () => {
+
+  const pelangganid = document.getElementById("pelanggan").value;
+  const tanggal = document.getElementById("tanggal").value;
+
+  const t = total();
+  const bayar = Number(bayarEl.value);
+
+  if (cart.length === 0) {
+    alert("Keranjang kosong");
+    return;
+  }
+
+  if (bayar < t) {
+    alert("Uang kurang!");
+    return;
+  }
+
+  // 🔥 INI YANG KAMU TANYA → TARUH DI SINI
+  const data = {
+    pelangganid: Number(pelangganid),
+    tanggalpenjualan: tanggal,
+
+    items: cart.map(i => ({
+      produkid: Number(i.id),
+      qty: i.qty,
+      hargasatuan: i.harga * 1000
+    })),
+
+    bayar: bayar * 1000,
+    kembalian: (bayar - t) * 1000
+  };
+
+  const res = await fetch("/penjualan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    alert("Penjualan berhasil!");
+    location.href = "/penjualan";
+  } else {
+    alert("Gagal simpan");
+  }
+};
+
+loadProduk();
+loadPelanggan();
+
+</script>
+
 </body>
 </html>

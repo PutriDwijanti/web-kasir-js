@@ -30,23 +30,36 @@ exports.getById = async (request, h) => {
 
 // CREATE penjualan + detail penjualan (transaksi banyak barang)
 exports.create = async (request, h) => {
-  const { tanggalpenjualan, pelangganid, items } = request.payload;
+  const { tanggalpenjualan, pelangganid, namapelanggan, items, bayar } = request.payload;
 
   if (!tanggalpenjualan || !pelangganid || !Array.isArray(items) || items.length === 0) {
     return h.response({ message: 'Data tidak lengkap' }).code(400);
   }
 
   try {
-    const penjualanId = await Penjualan.create({ tanggalpenjualan, pelangganid, items });
+    const totalharga = items.reduce((sum, item) => sum + (item.qty * item.hargasatuan), 0);
+
+    const kembalian = bayar - totalharga;
+
+    const penjualanId = await Penjualan.create({
+      pelangganid,
+      namapelanggan,
+      tanggalpenjualan,
+      items,
+      bayar,
+      kembalian,
+      totalharga
+    });
+
     return h.response({
       message: 'Penjualan berhasil ditambahkan',
       penjualanid: penjualanId,
     }).code(201);
+
   } catch (err) {
     return h.response({ error: err.message }).code(500);
   }
 };
-
 // UPDATE penjualan (hanya tanggal & pelanggan)
 exports.update = async (request, h) => {
   const id = request.params.id;
@@ -78,76 +91,92 @@ exports.delete = async (request, h) => {
 };
 // GET struk penjualan by id
 exports.showStruk = async (request, h) => {
-  const id = request.params.id;
-
   try {
-    // Ambil data penjualan
+    const id = request.params.id;
+
     const penjualan = await Penjualan.getById(id);
     if (!penjualan) {
       return h.response({ message: 'Struk tidak ditemukan' }).code(404);
     }
 
-    // Ambil detail barang dengan produk
-    const items = await DetailPenjualan.getByPenjualanIdWithProduk(id);
+    const items = await DetailPenjualan.getByPenjualanIdWithProduk(id) || [];
 
-    // Ambil data pelanggan jika ada
     const pelanggan = await Pelanggan.getById(penjualan.pelangganid);
 
-    // Mapping items dengan perhitungan subtotal dan konversi harga/jumlah ke Number
-    // @ts-ignore
     const detailPenjualan = items.map(item => {
-      const harga = Number(item.hargasatuan);
-      const jumlah = Number(item.qty);
-      const subtotal = harga * jumlah;
+      const harga = Number(item.hargasatuan || 0);
+      const qty = Number(item.qty || 0);
 
       return {
         namaproduk: item.namaproduk,
-        jumlah,
+        qty,
         harga,
-        subtotal
+        subtotal: harga * qty
       };
     });
 
-    // Hitung total dari subtotal
-    const total = detailPenjualan.reduce((acc, item) => acc + item.subtotal, 0);
+    const total = detailPenjualan.reduce((a, b) => a + b.subtotal, 0);
 
     return h.view('detailPenjualan/struk', {
       penjualan: {
         penjualanid: penjualan.penjualanid,
-        tanggalpenjualan: penjualan.tanggalpenjualan
+        tanggalpenjualan: penjualan.tanggalpenjualan,
+        bayar: penjualan.bayar || 0,
+        kembalian: penjualan.kembalian || 0,
+        totalharga: penjualan.totalharga || total,
+        namapelanggan: pelanggan?.namapelanggan || penjualan.namapelanggan
       },
       detailPenjualan,
       total
-    }).code(200);
+    });
 
   } catch (err) {
+    console.error("ERROR STRUK:", err);
     return h.response({ error: err.message }).code(500);
   }
 };
-// Menampilkan detail penjualan (mirip showStruk tapi mungkin view berbeda)
+// Menampilkan detail penjualan 
 exports.showDetail = async (request, h) => {
-  const id = request.params.id;
   try {
-    const items = await DetailPenjualan.getByPenjualanIdWithProduk(id);
-    // @ts-ignore
-    if (!items || items.length === 0) {
-      return h.response({ message: 'Detail penjualan tidak ditemukan' }).code(404);
+    const id = request.params.id;
+
+    const penjualan = await Penjualan.getById(id);
+    if (!penjualan) {
+      return h.response({ message: 'Data tidak ditemukan' }).code(404);
     }
 
-    // Bisa langsung return JSON atau render view lain
-    return h.view('detailPenjualan/detail', { detailPenjualan: items }).code(200);
-  } catch (err) {
-    return h.response({ error: err.message }).code(500);
-  }
-};
+    const items = await DetailPenjualan.getByPenjualanIdWithProduk(id) || [];
 
-// Mengambil detail penjualan dalam bentuk JSON (API)
-exports.getByPenjualanIdWithProduk = async (request, h) => {
-  const id = request.params.id;
-  try {
-    const items = await DetailPenjualan.getByPenjualanIdWithProduk(id);
-    return h.response(items).code(200);
+    const detailPenjualan = items.map(item => {
+      const harga = Number(item.hargasatuan || 0);
+      const qty = Number(item.qty || 0);
+
+      return {
+        produkid: item.produkid,
+        namaproduk: item.namaproduk,
+        qty,
+        hargasatuan: harga,
+        subtotal: harga * qty
+      };
+    });
+
+    const total = detailPenjualan.reduce((a, b) => a + b.subtotal, 0);
+
+    return h.view('detailPenjualan/detail', {
+      penjualan: {
+        penjualanid: penjualan.penjualanid,
+        namapelanggan: penjualan.namapelanggan,
+        tanggalpenjualan: penjualan.tanggalpenjualan,
+        totalharga: penjualan.totalharga || total,
+        bayar: penjualan.bayar || 0,
+        kembalian: penjualan.kembalian || 0,
+      },
+      detailPenjualan,
+      total
+    });
+
   } catch (err) {
+    console.error(err);
     return h.response({ error: err.message }).code(500);
   }
 };

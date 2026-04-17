@@ -1,7 +1,7 @@
 const pool = require('../config/db');
 
 const Penjualan = {
-  create: async ({ pelangganid, namapelanggan, tanggalpenjualan, items }) => {
+  create: async ({ pelangganid,tanggalpenjualan, items, bayar, kembalian }) => {
     if (!items || !Array.isArray(items) || items.length === 0) {
       throw new Error('Items tidak boleh kosong dan harus berupa array.');
     }
@@ -16,9 +16,9 @@ const Penjualan = {
 
       // Insert ke tabel penjualan (dengan totalharga)
       const [result] = await conn.query(
-        'INSERT INTO penjualan (pelangganid, tanggalpenjualan, namapelanggan, totalharga) VALUES (?, ?, ?, ?)',
-        [pelangganid, tanggalpenjualan, namapelanggan, totalharga]
-      );
+          'INSERT INTO penjualan (pelangganid, tanggalpenjualan, totalharga, bayar, kembalian) VALUES (?, ?, ?, ?, ?)',
+          [pelangganid, tanggalpenjualan, totalharga, bayar, kembalian]
+        );
 
       // @ts-ignore
       const penjualanid = result.insertId;
@@ -66,42 +66,49 @@ const Penjualan = {
   },
 
   getById: async (id) => {
-    const penjualanQuery = `
-      SELECT p.penjualanid, p.tanggalpenjualan, pl.pelangganid, pl.namapelanggan
-      FROM penjualan p
-      JOIN pelanggan pl ON p.pelangganid = pl.pelangganid
-      WHERE p.penjualanid = ?
-    `;
+  const penjualanQuery = `
+    SELECT 
+      p.penjualanid,
+      p.tanggalpenjualan,
+      p.totalharga,
+      p.bayar,
+      p.kembalian,
+      pl.pelangganid,
+      pl.namapelanggan
+    FROM penjualan p
+    JOIN pelanggan pl ON p.pelangganid = pl.pelangganid
+    WHERE p.penjualanid = ?
+  `;
 
-    const detailQuery = `
-      SELECT 
-        pd.produkid,
-        pr.namaproduk,
-        pd.qty,
-        pd.hargasatuan,
-        (pd.qty * pd.hargasatuan) AS subtotal
-      FROM detail_penjualan pd
-      JOIN produk pr ON pd.produkid = pr.produkid
-      WHERE pd.penjualanid = ?
-    `;
+  const detailQuery = `
+    SELECT 
+      pd.produkid,
+      pr.namaproduk,
+      pd.qty,
+      pd.hargasatuan,
+      (pd.qty * pd.hargasatuan) AS subtotal
+    FROM detail_penjualan pd
+    JOIN produk pr ON pd.produkid = pr.produkid
+    WHERE pd.penjualanid = ?
+  `;
 
-    try {
-      const [penjualanResult] = await pool.promise().query(penjualanQuery, [id]);
-      // @ts-ignore
-      if (penjualanResult.length === 0) return null;
+  try {
+    const [penjualanResult] = await pool.promise().query(penjualanQuery, [id]);
 
-      const [detailResult] = await pool.promise().query(detailQuery, [id]);
+    if (penjualanResult.length === 0) return null;
 
-      const penjualan = penjualanResult[0];
-      penjualan.items = detailResult;
-      // @ts-ignore
-      penjualan.total = detailResult.reduce((sum, item) => sum + item.subtotal, 0);
+    const [detailResult] = await pool.promise().query(detailQuery, [id]);
 
-      return penjualan;
-    } catch (err) {
-      throw err;
-    }
-  },
+    const penjualan = penjualanResult[0];
+    penjualan.items = detailResult;
+    penjualan.total = detailResult.reduce((sum, item) => sum + item.subtotal, 0);
+
+    return penjualan;
+
+  } catch (err) {
+    throw err;
+  }
+},
 
   update: async (id, { pelangganid, tanggalpenjualan, items }) => {
     let conn;

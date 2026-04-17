@@ -1,149 +1,125 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Detail Penjualan</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      font-size: 20px;
-      color: #333;
-      margin: 0 0 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin-top: 15px;
-    }
-    th {
-      background-color: #007bff;
-      color: white;
-      padding: 12px;
-      text-align: left;
-      font-size: 14px;
-    }
-    td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-      font-size: 14px;
-    }
-    td.right-align {
-      text-align: right;
-    }
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-    tfoot td {
-      font-weight: bold;
-      padding: 12px;
-      background-color: #f8f9fa;
-    }
-    .no-data {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-    }
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      color: white;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      margin-top: 20px;
-    }
-    .btn-back {
-      background-color: #17a2b8;
-    }
-    .btn-back:hover {
-      background-color: #138496;
-      transform: translateY(-1px);
-    }
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-      }
-      h2 {
-        font-size: 18px;
-      }
-      th, td {
-        padding: 8px;
-        font-size: 13px;
-      }
-      .btn {
-        width: 100%;
-        text-align: center;
-        padding: 8px 15px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail Penjualan</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
-<body>
-  <div class="container">
-    <h2>Detail Penjualan</h2>
-    <table>
-      <thead>
+
+<body class="bg-gray-100 p-6">
+
+<div class="max-w-5xl mx-auto bg-white p-6 rounded-xl shadow">
+
+  <!-- TITLE -->
+  <h1 class="text-2xl font-bold mb-6">Detail Penjualan</h1>
+
+  <!-- INFO HEADER -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+
+    <div class="border rounded-lg p-4 bg-gray-50">
+      <p class="mb-2"><span class="font-semibold">ID Penjualan:</span> <%= penjualan.penjualanid %></p>
+      <p><span class="font-semibold">Nama Pelanggan:</span> <%= penjualan.namapelanggan %></p>
+    </div>
+
+    <div class="border rounded-lg p-4 bg-gray-50">
+      <p>
+        <span class="font-semibold">Tanggal:</span>
+        <% if (penjualan.tanggalpenjualan) { %>
+          <%= new Date(penjualan.tanggalpenjualan).toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          }) %>
+        <% } else { %>
+          -
+        <% } %>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div class="overflow-x-auto">
+    <table class="w-full border text-sm">
+      <thead class="bg-blue-500 text-white">
         <tr>
-          <th>Produk</th>
-          <th>Jumlah</th>
-          <th>Harga Satuan (Rp)</th>
-          <th>Subtotal (Rp)</th>
+          <th class="p-2">ID Produk</th>
+          <th class="p-2">Nama Produk</th>
+          <th class="p-2">Qty</th>
+          <th class="p-2">Harga</th>
+          <th class="p-2">Subtotal</th>
         </tr>
       </thead>
+
       <tbody>
-        <% if (detailPenjualan && detailPenjualan.length > 0) { %>
-          <% detailPenjualan.forEach(item => { %>
-            <tr>
-              <td><%= item.namaproduk %></td>
-              <td><%= item.qty %></td>
-              <td class="right-align">
-                Rp <%= Number(item.hargasatuan).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+        <% if (penjualan.items && penjualan.items.length > 0) { %>
+          <% penjualan.items.forEach(item => { %>
+            <tr class="border-t hover:bg-gray-50">
+              <td class="p-2"><%= item.produkid %></td>
+              <td class="p-2"><%= item.namaproduk %></td>
+              <td class="p-2"><%= item.qty %></td>
+              <td class="p-2">
+                Rp <%= Number(item.hargasatuan).toLocaleString('id-ID') %>
               </td>
-              <td class="right-align">
-                Rp <%= Number(item.subtotal).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+              <td class="p-2 font-semibold">
+                Rp <%= Number(item.subtotal).toLocaleString('id-ID') %>
               </td>
             </tr>
           <% }) %>
         <% } else { %>
-          <tr><td colspan="4" class="no-data">Tidak ada detail produk</td></tr>
+          <tr>
+            <td colspan="5" class="text-center p-4 text-gray-500">
+              Tidak ada data produk
+            </td>
+          </tr>
         <% } %>
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="3" class="right-align">Total</td>
-          <td class="right-align">
-            Rp <%= Number(total).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
-          </td>
-        </tr>
-      </tfoot>
     </table>
-
-    <a href="/penjualan" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke Daftar Penjualan</a>
   </div>
+
+  <!-- SUMMARY BOX -->
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <!-- TOTAL -->
+    <div class="p-4 border rounded-lg bg-gray-50 text-center">
+      <p class="text-gray-500">Total</p>
+      <p class="text-xl font-bold">
+        Rp <%= Number(penjualan.totalharga || 0).toLocaleString('id-ID') %>
+      </p>
+    </div>
+
+    <!-- BAYAR -->
+    <div class="p-4 border rounded-lg bg-gray-50 text-center">
+      <p class="text-gray-500">Bayar</p>
+      <p class="text-xl font-bold text-blue-600">
+        Rp <%= Number(penjualan.bayar || 0).toLocaleString('id-ID') %>
+      </p>
+    </div>
+
+    <!-- KEMBALIAN -->
+    <div class="p-4 border rounded-lg bg-gray-50 text-center">
+      <p class="text-gray-500">Kembalian</p>
+      <p class="text-xl font-bold text-green-600">
+        Rp <%= Number(penjualan.kembalian || 0).toLocaleString('id-ID') %>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- BACK BUTTON -->
+  <div class="mt-6">
+    <a href="/penjualan"
+       class="inline-flex items-center gap-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+      <i class="fa-solid fa-arrow-left"></i>
+      Kembali ke Daftar Penjualan
+    </a>
+  </div>
+
+</div>
+
 </body>
 </html>

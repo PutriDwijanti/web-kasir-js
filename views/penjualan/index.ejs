@@ -1,279 +1,196 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Daftar Penjualan</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'" onerror="this.onerror=null;this.href='/path/to/local/fontawesome.css'">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      font-size: 24px;
-      color: #333;
-      margin: 0 0 20px;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .search-bar {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-      width: 200px;
-    }
-    .search-bar:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-    }
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      color: white;
-      transition: background-color 0.3s;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-primary {
-      background-color: #28a745;
-    }
-    .btn-primary:hover {
-      background-color: #218838;
-    }
-    .btn-back {
-      background-color: #17a2b8;
-    }
-    .btn-back:hover {
-      background-color: #138496;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    th {
-      background-color: #007bff;
-      color: white;
-      padding: 12px;
-      text-align: left;
-    }
-    td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    tr:hover {
-      background-color: #f1f1f1;
-    }
- 
-    .action-btn {
-      padding: 8px 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 13px;
-      color: white;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 80px; 
-      justify-content: center;
-    }
-    .action-btn i {
-      font-size: 12px;
-    }
-    .btn-detail {
-      background-color: #17a2b8;
-    }
-    .btn-detail:hover {
-      background-color: #138496;
-      transform: translateY(-1px);
-    }
-    .btn-struk {
-      background-color: #ffc107;
-    }
-    .btn-struk:hover {
-      background-color: #e0a800;
-      transform: translateY(-1px);
-    }
-    .btn-delete {
-      background-color: #dc3545;
-    }
-    .btn-delete:hover {
-      background-color: #c82333;
-      transform: translateY(-1px);
-    }
-    .action-buttons {
-      display: flex;
-      gap: 8px; 
-      flex-wrap: wrap; 
-    }
-    @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-      }
-      h1 {
-        font-size: 20px;
-      }
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .header-right {
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-      }
-      .search-bar {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-      .btn {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 10px;
-      }
-      table {
-        font-size: 14px;
-      }
-      th, td {
-        padding: 8px;
-      }
-      .action-btn {
-        padding: 6px 8px;
-        font-size: 12px;
-        min-width: 70px;
-      }
-      .action-btn i {
-        font-size: 11px;
-      }
-      .action-buttons {
-        gap: 6px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Penjualan</h1>
-      <div class="header-right">
-        <input type="text" class="search-bar" id="searchInput" placeholder="Cari nama pelanggan..." aria-label="Cari penjualan berdasarkan nama pelanggan">
-        <a href="/penjualan/create" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Penjualan Baru</a>
-        <a href="/dashboard" class="btn btn-back"><i class="fas fa-arrow-left"></i> Kembali ke Dashboard</a>
-      </div>
-    </div>
 
-    <table id="penjualanTable">
-      <thead>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-100 min-h-screen p-5">
+
+<div class="max-w-6xl mx-auto bg-white shadow-lg rounded-2xl p-6">
+
+  <!-- HEADER -->
+  <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    
+    <h1 class="text-2xl font-bold text-gray-700">Daftar Penjualan</h1>
+
+    <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+      
+      <!-- SEARCH -->
+      <input type="text" id="searchInput"
+        placeholder="Cari pelanggan..."
+        class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 outline-none w-full md:w-64">
+
+      <!-- BUTTON -->
+      <a href="/penjualan/create"
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 shadow">
+        <i class="fas fa-plus"></i> Tambah
+      </a>
+
+      <a href="/dashboard"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 shadow">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="overflow-x-auto">
+    <table id="penjualanTable" class="w-full border rounded-xl overflow-hidden shadow-sm">
+      
+      <thead class="bg-blue-500 text-white text-sm">
         <tr>
-          <th>ID</th>
-          <th>ID Pelanggan</th>
-          <th>Nama Pelanggan</th>
-          <th>Tanggal</th>
-          <th>Total Harga</th>
-          <th>Aksi</th>
+          <th class="p-3 text-left">ID</th>
+          <th class="p-3 text-left">ID Pelanggan</th>
+          <th class="p-3 text-left">Nama</th>
+          <th class="p-3 text-left">Tanggal</th>
+          <th class="p-3 text-left">Total</th>
+          <th class="p-3 text-left">Aksi</th>
         </tr>
       </thead>
-      <tbody>
+
+      <tbody id="tableBody" class="text-sm">
+
         <% if (penjualan && penjualan.length > 0) { %>
           <% penjualan.forEach(item => { %>
-            <tr>
-              <td><%= item.penjualanid %></td>
-              <td><%= item.pelangganid %></td>
-              <td><%= item.namapelanggan %></td>
-              <td>
-                <% if (item.tanggalpenjualan) { %>
-                  <%= new Date(item.tanggalpenjualan).toLocaleDateString('id-ID') %>
-                <% } else { %>
-                  -
-                <% } %>
+
+            <tr class="border-b hover:bg-gray-100 transition">
+              
+              <td class="p-3"><%= item.penjualanid %></td>
+              <td class="p-3"><%= item.pelangganid %></td>
+              <td class="p-3 font-medium"><%= item.namapelanggan %></td>
+
+              <td class="p-3">
+                <%= item.tanggalpenjualan
+                  ? new Date(item.tanggalpenjualan).toLocaleDateString('id-ID')
+                  : '-' %>
               </td>
-              <td>
-                <% const total = Number(item.totalharga); %>
-                <%= isNaN(total) ? 'Rp 0,00' : 'Rp ' + total.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+
+              <td class="p-3 text-green-600 font-semibold">
+                Rp <%= Number(item.totalharga || 0).toLocaleString('id-ID') %>
               </td>
-              <td>
-                <div class="action-buttons">
-                  <a href="/penjualan/detail/<%= item.penjualanid %>" class="action-btn btn-detail" title="Detail"><i class="fas fa-info-circle"></i> Detail</a>
-                  <a href="/struk/<%= item.penjualanid %>" class="action-btn btn-struk" title="Struk"><i class="fas fa-receipt"></i> Struk</a>
-                  <form action="/penjualan/<%= item.penjualanid %>?_method=DELETE" method="POST" class="delete-form" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus penjualan ID <%= item.penjualanid %>?')">
-                    <button type="submit" class="action-btn btn-delete" aria-label="Hapus penjualan ID <%= item.penjualanid %>" title="Hapus"><i class="fas fa-trash"></i> Hapus</button>
+
+              <td class="p-3">
+                <div class="flex flex-wrap gap-2">
+
+                  <a href="/penjualan/detail/<%= item.penjualanid %>"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-xs flex items-center gap-1">
+                    <i class="fas fa-eye"></i>
+                  </a>
+
+                  <a href="/struk/<%= item.penjualanid %>"
+                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs flex items-center gap-1">
+                    <i class="fas fa-receipt"></i> 
+                  </a>
+
+                  <form action="/penjualan/<%= item.penjualanid %>?_method=DELETE"
+                    method="POST"
+                    onsubmit="return confirm('Yakin hapus data ini?')">
+
+                    <button type="submit"
+                      class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg text-xs flex items-center gap-1">
+                      <i class="fas fa-trash"></i> 
+                    </button>
+
                   </form>
+
                 </div>
               </td>
+
             </tr>
+
           <% }) %>
         <% } else { %>
+
           <tr>
-            <td colspan="6" class="no-data">
-              <i class="fas fa-exclamation-circle"></i>
-              Tidak ada data penjualan. <a href="/penjualan/create" class="action-btn btn-primary">Tambah sekarang</a>
+            <td colspan="6" class="text-center p-5 text-gray-500">
+              Tidak ada data penjualan
             </td>
           </tr>
+
         <% } %>
+
       </tbody>
+
     </table>
   </div>
 
-  <script>
-    // Search Functionality
-    const searchInput = document.getElementById('searchInput');
-    const table = document.getElementById('penjualanTable');
-    const rows = table.getElementsByTagName('tr');
-    const noDataRow = table.querySelector('.no-data');
+  <!-- PAGINATION -->
+  <div class="flex justify-center items-center gap-3 mt-6">
 
-    searchInput.addEventListener('input', () => {
-      const filter = searchInput.value.toLowerCase();
-      let hasResults = false;
+    <button id="prevBtn"
+      class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg">
+      Prev
+    </button>
 
-      for (let i = 1; i < rows.length; i++) { // Skip header row
-        const cells = rows[i].getElementsByTagName('td');
-        const namaPelanggan = cells[2] ? cells[2].textContent.toLowerCase() : '';
-        if (namaPelanggan.includes(filter)) {
-          rows[i].style.display = '';
-          hasResults = true;
-        } else {
-          rows[i].style.display = 'none';
-        }
-      }
+    <span id="pageInfo" class="text-sm text-gray-600"></span>
 
-      if (noDataRow) {
-        noDataRow.style.display = filter && !hasResults ? '' : 'none';
-      }
-    });
-  </script>
+    <button id="nextBtn"
+      class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg">
+      Next
+    </button>
+
+  </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+const rowsPerPage = 10;
+let currentPage = 1;
+
+const rows = document.querySelectorAll('#tableBody tr');
+const pageInfo = document.getElementById('pageInfo');
+
+function showPage(page) {
+  const start = (page - 1) * rowsPerPage;
+  const end = start + rowsPerPage;
+
+  rows.forEach((row, index) => {
+    row.style.display = (index >= start && index < end) ? '' : 'none';
+  });
+
+  const totalPages = Math.ceil(rows.length / rowsPerPage);
+  pageInfo.textContent = `Page ${page} / ${totalPages}`;
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    showPage(currentPage);
+  }
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  const totalPages = Math.ceil(rows.length / rowsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    showPage(currentPage);
+  }
+});
+
+// SEARCH + RESET PAGE
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const val = e.target.value.toLowerCase();
+
+  rows.forEach(row => {
+    const nama = row.children[2]?.textContent.toLowerCase() || '';
+    row.style.display = nama.includes(val) ? '' : 'none';
+  });
+
+  currentPage = 1;
+  showPage(currentPage);
+});
+
+// INIT
+showPage(currentPage);
+</script>
+
 </body>
 </html>
